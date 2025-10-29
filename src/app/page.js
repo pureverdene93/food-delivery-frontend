@@ -15,14 +15,16 @@ export default function Home() {
     setState("Order");
   };
   return (
-    <div className="bg-zinc-100 flex h-screen w-screen">
+    <div className="bg-zinc-100 flex h-full w-full flex-row items-baseline">
       <AdminNavigation
         state={state}
         clickFoodMenu={clickFoodMenu}
         clickOrder={clickOrder}
       />
-      {state === "Food menu" && <FoodMenu />}
-      {state === "Order" && <FoodOrder />}
+      <div className="w-full flex justify-center">
+        {state === "Food menu" && <FoodMenu />}
+        {state === "Order" && <FoodOrder />}
+      </div>
     </div>
   );
 }
