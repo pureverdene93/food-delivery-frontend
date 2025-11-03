@@ -7,6 +7,7 @@ import { CategorySection } from "./categorySection";
 
 export const FoodMenu = () => {
   const [categoryData, setCategoryData] = useState([]);
+  const [categoryState, setCategoryState] = useState(false);
 
   const getOptionTest = {
     method: "GET",
@@ -47,9 +48,15 @@ export const FoodMenu = () => {
           <button
             className="flex justify-center items-center bg-red-500
           rounded-full cursor-pointer w-9 h-9"
+            onClick={() => setCategoryState(true)}
           >
             <AddFoodIcon />
           </button>
+          {categoryState === true ? (
+            <div className="w-[460px] h-[272]px bg-white rounded-xl absolute"></div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <CategorySection />
