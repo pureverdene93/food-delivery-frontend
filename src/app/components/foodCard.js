@@ -1,7 +1,11 @@
+"use client";
+import { useState } from "react";
 import { FoodEditIcon } from "../icons/editFood-Icon";
+import { EditAndAddNewFood } from "./editAndAddNewFood";
 
 export const FoodCard = (props) => {
   const { foodImg, foodName, foodIngredients, foodPrice } = props;
+  const [editFoodState, setEditFoodState] = useState(false);
 
   return (
     <div className="w-[270px] h-[241px] border border-zinc-300 rounded-[20px] flex flex-col items-center justify-evenly">
@@ -13,9 +17,18 @@ export const FoodCard = (props) => {
         <button
           className="w-11 h-11 bg-white rounded-full flex 
         absolute bottom-5 right-5 justify-center items-center cursor-pointer"
+          onClick={() => setEditFoodState(true)}
         >
           <FoodEditIcon />
         </button>
+        {editFoodState === true ? (
+          <EditAndAddNewFood
+            exit={() => setEditFoodState(false)}
+            title={"Edit food info"}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex items-center w-[238px] justify-between ">

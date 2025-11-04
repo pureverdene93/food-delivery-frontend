@@ -2,8 +2,16 @@
 import { useState } from "react";
 import { Orders } from "../components/orders";
 import { UpAndDown } from "../icons/upAndDown";
-import { SetFalseDeliveryState } from "../icons/setFalseDeliveryState-icon";
 import { ChangeAllDeliveryState } from "../components/changeAllDeliveryState";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export const FoodOrder = () => {
   const [state, setState] = useState(false);
@@ -23,11 +31,10 @@ export const FoodOrder = () => {
   };
   console.log(state, countDeliveryState);
 
-  const handleDeliveryState = () => {
-    setDeliveryState(true);
-  };
-  const handleSetDeliveryStateFalse = () => {
-    setDeliveryState(false);
+  const handleDeliveryStateTrue = () => {
+    if (countDeliveryState > 0) {
+      setDeliveryState(true);
+    }
   };
 
   return (
@@ -52,7 +59,7 @@ export const FoodOrder = () => {
               font-medium text-white content-center ${
                 countDeliveryState > 0 ? "bg-black" : "bg-zinc-200"
               }`}
-              onClick={handleDeliveryState}
+              onClick={handleDeliveryStateTrue}
             >
               Change delivery state
               {countDeliveryState > 0 && (
@@ -64,12 +71,15 @@ export const FoodOrder = () => {
                 </div>
               )}
             </button>
-            {deliveryState === true ? (
-              <ChangeAllDeliveryState
-                handleSetDeliveryStateFalse={handleSetDeliveryStateFalse}
-              />
-            ) : (
-              ""
+            {deliveryState === true && countDeliveryState > 0 && (
+              <div
+                className="fixed z-50 bg-[rgba(0,0,0,0.5)] w-full h-full
+                top-0 left-0 flex justify-center items-center"
+              >
+                <ChangeAllDeliveryState
+                  handleSetDeliveryStateFalse={() => setDeliveryState(false)}
+                />
+              </div>
             )}
           </div>
         </div>
