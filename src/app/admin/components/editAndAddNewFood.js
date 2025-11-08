@@ -1,18 +1,12 @@
 "use client";
+import { useEffect } from "react";
 import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { useState } from "react";
 import { AddImage } from "./addImage";
 
 export const EditAndAddNewFood = (props) => {
-  const { exit, title, foodName } = props;
-
-  const [image, setImage] = useState(null);
-  const imageUpload = (event) => {
-    const imageDisplay = event.target.files[0];
-    if (imageDisplay) {
-      setImage(URL.createObjectURL(imageDisplay));
-    }
-  };
+  const { exit, title } = props;
+  const [foodName, setFoodName] = useState("");
 
   return (
     <div

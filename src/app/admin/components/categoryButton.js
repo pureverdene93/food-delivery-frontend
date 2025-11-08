@@ -11,10 +11,7 @@ export const CategoryButton = (props) => {
       onClick={showedByCategory}
     >
       {categoryName}
-      <span
-        className="h-5 bg-black text-white text-[12px] font-semibold
-          flex justify-center items-center pl-2.5 pr-2.5 rounded-[50px]"
-      >
+      <span className="h-5 bg-black text-white text-[12px] font-semibold flex justify-center items-center pl-2.5 pr-2.5 rounded-[50px]">
         {foodCount}
       </span>
     </button>
