@@ -6,6 +6,7 @@ import { AddFoodIcon } from "@/app/icons/addFoodIcon";
 import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { CategorySection } from "../components/categorySection";
 import { AddCategoryCard } from "../components/addCategoryCard";
+import { jwtDecode } from "jwt-decode";
 
 export const FoodMenu = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -116,3 +117,6 @@ export const FoodMenu = () => {
 
 // router.push(`/admin`);
 // "Addpass11!"
+// "email": "newuser@gmail.com",
+//   "password": "Userpass11!",
+//   "role": "user"

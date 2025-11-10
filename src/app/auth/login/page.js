@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Prev } from "../../icons/prev-icon";
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const router = useRouter();
@@ -60,9 +61,15 @@ export default function Home() {
       });
 
       const { token } = await res.json();
-
       localStorage.setItem("token", token);
-      router.push("/admin");
+      const decode = jwtDecode(token);
+      console.log("this is decoded token", typeof decode.role);
+      if (decode.role === "admin") {
+        router.push(`/admin`);
+      }
+      if (decode.role === "user") {
+        router.push(`/`);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -71,15 +78,9 @@ export default function Home() {
   console.log(passInput, "this is pass");
 
   return (
-    <div
-      className="bg-white w-screen h-screen flex flex-row justify-center
-      items-center gap-12"
-    >
+    <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
       <div className="w-[416px] h-[376px] flex flex-col justify-between">
-        <button
-          className="w-9 h-9 rounded-xl flex justify-center items-center
-          border border-zinc-300 cursor-pointer"
-        >
+        <button className="w-9 h-9 rounded-xl flex justify-center items-center border border-zinc-300 cursor-pointer">
           <Prev />
         </button>
         <div className="flex flex-col">
@@ -91,8 +92,7 @@ export default function Home() {
         <div className="flex flex-col gap-4 items-baseline">
           <div className="flex flex-col gap-2">
             <input
-              className="w-[416px] h-9 rounded-xl border border-zinc-300
-            pl-2 text-[14px] font-normal text-black"
+              className="w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black"
               placeholder="Enter your email adress"
               onChange={saveEmailInput}
             />
@@ -104,8 +104,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col gap-2">
             <input
-              className="w-[416px] h-9 rounded-xl border border-zinc-300
-            pl-2 text-[14px] font-normal text-black"
+              className="w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black"
               placeholder="Password"
               onChange={savePassInput}
             />
@@ -124,7 +123,7 @@ export default function Home() {
         </div>
         <button
           className={`w-[416px] h-9 rounded-xl border border-zinc-300
-          text-[14px] font-medium text-white bg-zinc-300 cursor-pointer`}
+          text-[14px] font-medium text-white bg-zinc-300 cursor-pointer hover:bg-black`}
           onClick={nextButton}
         >
           Let's Go

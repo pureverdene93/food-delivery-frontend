@@ -8,27 +8,20 @@ import { DeleteIconSVG } from "@/app/icons/deleteIcon";
 const option = {
   method: "GET",
 };
-// const postOptions = {
-//   method: "POST",
-//   headers: {
-//     "content-type": "application/json",
-//     accept: "application/json",
-//   },
-//   body: JSON.stringify({
-//     // email: email,
-//     // password: password,
-//   }),
-// };
 
 export const EditFoodInfo = (props) => {
-  const { exit } = props;
+  const { exit, foodId, getFoodData } = props;
 
   const categoryApiLink = `http://localhost:8000/category`;
 
   const [categoryData, setCategoryData] = useState([]);
   const [dropDown, setDropDown] = useState(false);
   const [changeCategory, setChangeCategory] = useState("Change category");
-
+  const [token, setToken] = useState(null);
+  const [editFoodName, setEditFoodName] = useState("");
+  const [editIngredients, setEditIgredients] = useState("");
+  const [editPrice, setEditPrice] = useState("");
+  const [editImage, setEditImage] = useState(null);
   const getData = async () => {
     const categoryData = await fetch(categoryApiLink, option);
     const jsonCategoryData = await categoryData.json();
@@ -41,10 +34,41 @@ export const EditFoodInfo = (props) => {
     setChangeCategory(newCategory);
     setDropDown(false);
   };
+  const findCategoryId = categoryData.find((category) => {
+    return category.categoryName === changeCategory;
+  });
+  console.log(findCategoryId, "ene yg yu butsagad baigaanbee");
 
+  const editAndSaveFoodInfo = async () => {
+    try {
+      await fetch(`http://localhost:8000/food/${foodId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          foodName: editFoodName,
+          price: Number(editPrice),
+          image: editImage,
+          ingredients: editIngredients,
+          category: findCategoryId._id,
+        }),
+      });
+      await getFoodData();
+      exit();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
+    const adminToken = localStorage.getItem("token");
+    if (adminToken) {
+      setToken(adminToken);
+    }
     getData();
-  }, []);
+  }, [editAndSaveFoodInfo, getFoodData()]);
 
   return (
     <div
@@ -69,6 +93,7 @@ export const EditFoodInfo = (props) => {
               className="border w-[288px] h-9 border-zinc-300 rounded-xl
               pl-3 text-[14px] text-black font-normal"
               placeholder="Change dish name..."
+              onChange={(e) => setEditFoodName(e.target.value)}
             />
           </div>
           <div className="flex justify-between">
@@ -123,6 +148,7 @@ export const EditFoodInfo = (props) => {
               text-black font-normal text-[14px]"
               placeholder="Change ingredients..."
               type="text"
+              onChange={(e) => setEditIgredients(e.target.value)}
             />
           </div>
           <div className="flex justify-between">
@@ -131,6 +157,7 @@ export const EditFoodInfo = (props) => {
               className="border w-[288px] h-9 border-zinc-300 rounded-xl
               pl-3 text-[14px] text-black font-normal"
               placeholder="Change dish price..."
+              onChange={(e) => setEditPrice(e.target.value)}
             />
           </div>
           <div className="flex justify-between">
@@ -147,6 +174,7 @@ export const EditFoodInfo = (props) => {
             <button
               className="w-[126px] h-10 bg-black rounded-xl text-white flex
                 justify-center items-center font-medium text-[14px] cursor-pointer"
+              onClick={editAndSaveFoodInfo}
             >
               Save changes
             </button>

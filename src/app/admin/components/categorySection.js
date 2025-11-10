@@ -39,14 +39,20 @@ export const CategorySection = (props) => {
     >
       <p className="text-5 font-semibold text-black">{category.categoryName}</p>
       <div className="flex flex-wrap gap-4">
-        <Addfood foodName={category.categoryName} />
+        <Addfood
+          foodName={category.categoryName}
+          getFoodData={getFoodData}
+          category={category}
+        />
         {filteredFoodData.map((food) => {
           return (
             <div key={food._id}>
               <FoodCard
+                foodId={food._id}
                 foodName={food.foodName}
                 foodIngredients={food.ingredients}
                 foodPrice={food.price}
+                getFoodData={getFoodData}
               />
             </div>
           );

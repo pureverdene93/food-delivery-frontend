@@ -4,7 +4,8 @@ import { useState } from "react";
 import { EditFoodInfo } from "./editFoodInfo";
 
 export const FoodCard = (props) => {
-  const { foodImg, foodName, foodIngredients, foodPrice } = props;
+  const { foodId, foodImg, foodName, foodIngredients, foodPrice, getFoodData } =
+    props;
   const [editFoodState, setEditFoodState] = useState(false);
 
   return (
@@ -22,9 +23,13 @@ export const FoodCard = (props) => {
           <FoodEditIcon />
         </button>
         {editFoodState === true ? (
-          <EditFoodInfo exit={() => setEditFoodState(false)} />
+          <EditFoodInfo
+            foodId={foodId}
+            exit={() => setEditFoodState(false)}
+            getFoodData={getFoodData}
+          />
         ) : (
-          ""
+          <></>
         )}
       </div>
       <div className="flex flex-col gap-1">

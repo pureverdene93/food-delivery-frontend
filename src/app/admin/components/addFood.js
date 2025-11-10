@@ -4,7 +4,7 @@ import { useState } from "react";
 import { EditAndAddNewFood } from "./editAndAddNewFood";
 
 export const Addfood = (props) => {
-  const { foodName } = props;
+  const { foodName, getFoodData, category } = props;
   const [state, setState] = useState(false);
 
   return (
@@ -23,6 +23,8 @@ export const Addfood = (props) => {
         <EditAndAddNewFood
           title={`Add new Dish to ${foodName}`}
           exit={() => setState(false)}
+          getFoodData={getFoodData}
+          category={category}
         />
       ) : (
         ""
