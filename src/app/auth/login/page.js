@@ -3,6 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Prev } from "../../icons/prev-icon";
 import { jwtDecode } from "jwt-decode";
+import { PreStepBtn } from "../authComponents/preStep";
+import { LetsGo } from "../authComponents/letsGo";
+import { Titles } from "../authComponents/titles";
+import { AlreadyAccount } from "../authComponents/alreadyHaveAccount";
 
 export default function Home() {
   const router = useRouter();
@@ -43,35 +47,33 @@ export default function Home() {
   const nextButton = async () => {
     const err = checkMailAndPass();
     if (Object.keys(err).length === 0) {
+      try {
+        const res = await fetch("http://localhost:8000/user/signIn", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: emailInput,
+            password: passInput,
+          }),
+        });
+        const { token } = await res.json();
+        localStorage.setItem("token", token);
+        const decode = jwtDecode(token);
+        if (decode.role === "admin") {
+          router.push(`/admin`);
+        }
+        if (decode.role === "user") {
+          router.push(`/`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
       setErrState({});
     } else {
       setErrState(err);
-    }
-    try {
-      const res = await fetch("http://localhost:8000/user/signIn", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-        body: JSON.stringify({
-          email: emailInput,
-          password: passInput,
-        }),
-      });
-
-      const { token } = await res.json();
-      localStorage.setItem("token", token);
-      const decode = jwtDecode(token);
-      console.log("this is decoded token", typeof decode.role);
-      if (decode.role === "admin") {
-        router.push(`/admin`);
-      }
-      if (decode.role === "user") {
-        router.push(`/`);
-      }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -79,20 +81,16 @@ export default function Home() {
 
   return (
     <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
-      <div className="w-[416px] h-[376px] flex flex-col justify-between">
-        <button className="w-9 h-9 rounded-xl flex justify-center items-center border border-zinc-300 cursor-pointer">
-          <Prev />
-        </button>
-        <div className="flex flex-col">
-          <p className="text-[24px] font-semibold text-black">Log in</p>
-          <p className="font-normal text-zinc-300 text-[16px]">
-            Log in to enjoy your favorite dishes.
-          </p>
-        </div>
+      <div className="w-[416px] min-h-[376px] flex flex-col justify-center gap-6">
+        <PreStepBtn />
+        <Titles
+          big={"Log in "}
+          small={"Log in to enjoy your favorite dishes."}
+        />
         <div className="flex flex-col gap-4 items-baseline">
           <div className="flex flex-col gap-2">
             <input
-              className="w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black"
+              className={`w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black`}
               placeholder="Enter your email adress"
               onChange={saveEmailInput}
             />
@@ -114,21 +112,15 @@ export default function Home() {
               </p>
             )}
           </div>
-
           <button
             className={`text-[14px] font-normal text-black cursor-pointer hover:underline`}
+            onClick={() => router.push(`/auth/reset-password`)}
           >
             Forgot password ?
           </button>
         </div>
-        <button
-          className={`w-[416px] h-9 rounded-xl border border-zinc-300
-          text-[14px] font-medium text-white bg-zinc-300 cursor-pointer hover:bg-black`}
-          onClick={nextButton}
-        >
-          Let's Go
-        </button>
-        <span className="text-zinc-300 font-normal text-4 flex justify-center gap-3">
+        <LetsGo nextStep={nextButton} title={"Let's Go"} />
+        {/* <span className="text-zinc-300 font-normal text-4 flex justify-center gap-3">
           {`Don’t have an account?`}
           <button
             className="text-blue-600 text-4 font-normal cursor-pointer hover:underline"
@@ -136,7 +128,12 @@ export default function Home() {
           >
             Sign up
           </button>
-        </span>
+        </span> */}
+        <AlreadyAccount
+          title={"Don’t have an account?"}
+          link={"Sign up "}
+          onClick={() => router.push(`/auth/signUp`)}
+        />
       </div>
       <img
         src="/loginImage.png"

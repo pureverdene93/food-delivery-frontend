@@ -1,8 +1,15 @@
+"use client";
+import { useState } from "react";
+import { StepOne } from "./features/stepOne";
+import { StepTwo } from "./features/stepTwo";
+
 export default function Home() {
+  const [step, setStep] = useState(1);
+
   return (
-    <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
-      <div className="w-[416px] h-72 border"></div>
-      <img src="/loginImage.png" className="w-[856px] h-[904px] rounded-xl" />
-    </div>
+    <>
+      {step === 1 && <StepOne step={() => setStep(step + 1)} />}
+      {step === 2 && <StepTwo />}
+    </>
   );
 }
