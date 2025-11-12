@@ -33,7 +33,7 @@ export const EditAndAddNewFood = (props) => {
         },
         body: JSON.stringify({
           foodName: foodName,
-          price: JSON.parse(foodPrice),
+          price: Number(foodPrice),
           image: foodImage,
           ingredients: foodIngredients,
           category: category._id,

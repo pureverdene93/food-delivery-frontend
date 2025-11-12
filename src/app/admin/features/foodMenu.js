@@ -36,8 +36,7 @@ export const FoodMenu = () => {
   // };
 
   const foodCountById = (categoryId) => {
-    console.log(categoryId, foodData);
-    return foodData.filter((foodId) => foodId.category._id === categoryId)
+    return foodData.filter((foodId) => foodId.category?._id === categoryId)
       .length;
   };
 

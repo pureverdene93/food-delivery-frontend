@@ -113,7 +113,7 @@ export const StepTwo = () => {
         <AlreadyAccount
           title={"Already have an account?"}
           link={"Log in"}
-          onClick={router.push(`/auth/login`)}
+          onClick={() => router.push(`/auth/login`)}
         />
       </div>
 

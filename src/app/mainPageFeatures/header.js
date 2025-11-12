@@ -1,6 +1,9 @@
+"use client";
+import { useRouter } from "next/navigation";
 import { LogoIcon } from "../icons/logo-icon";
 
 export const Header = () => {
+  const router = useRouter();
   return (
     <div className="bg-zinc-900 h-[68px] w-full flex items-center justify-center">
       <div className="flex w-[1440px] justify-between pl-[88px] pr-[88px]">
@@ -14,10 +17,16 @@ export const Header = () => {
           </div>
         </div>
         <div className="flex flex-row gap-3">
-          <button className="cursor-pointer w-[75px] h-9 bg-white text-black flex justify-center items-center font-medium text-[14px] rounded-3xl">
+          <button
+            className="cursor-pointer w-[75px] h-9 bg-white text-black flex justify-center items-center font-medium text-[14px] rounded-3xl"
+            onClick={() => router.push(`/auth/signUp`)}
+          >
             Sign up
           </button>
-          <button className="cursor-pointer w-[65px] h-9 bg-red-500 text-white flex justify-center items-center font-medium text-[14px] rounded-3xl">
+          <button
+            className="cursor-pointer w-[65px] h-9 bg-red-500 text-white flex justify-center items-center font-medium text-[14px] rounded-3xl"
+            onClick={() => router.push(`/auth/login`)}
+          >
             Log in
           </button>
         </div>

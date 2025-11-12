@@ -7,22 +7,15 @@ import { PreStepBtn } from "../authComponents/preStep";
 import { LetsGo } from "../authComponents/letsGo";
 import { Titles } from "../authComponents/titles";
 import { AlreadyAccount } from "../authComponents/alreadyHaveAccount";
+import { FaEye } from "react-icons/fa";
 
 export default function Home() {
   const router = useRouter();
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
   const [errState, setErrState] = useState({});
-  const saveEmailInput = (e) => {
-    setEmailInput(e.target.value);
-  };
-  console.log(emailInput, "this is email");
-  const savePassInput = (e) => {
-    setPassInput(e.target.value);
-  };
-  const pushSignUp = () => {
-    router.push(`/auth/signUp`);
-  };
+  const [passState, setPassState] = useState(false);
+
   const checkEmail = (mail) => {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+\.)+[A-Za-z]{2,}$/.test(
       mail
@@ -77,8 +70,6 @@ export default function Home() {
     }
   };
 
-  console.log(passInput, "this is pass");
-
   return (
     <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
       <div className="w-[416px] min-h-[376px] flex flex-col justify-center gap-6">
@@ -90,9 +81,9 @@ export default function Home() {
         <div className="flex flex-col gap-4 items-baseline">
           <div className="flex flex-col gap-2">
             <input
-              className={`w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black`}
+              className={`w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black focus:outline-none`}
               placeholder="Enter your email adress"
-              onChange={saveEmailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
             />
             {errState.email && (
               <p className="text-red-500 text-[14px] font-normal">
@@ -101,11 +92,20 @@ export default function Home() {
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <input
-              className="w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black"
-              placeholder="Password"
-              onChange={savePassInput}
-            />
+            <div className="w-[416px] rounded-xl h-9 border border-zinc-300 flex">
+              <input
+                className="w-[390px] h-9 rounded-xl pl-2 text-[14px] font-normal text-black focus:outline-none"
+                placeholder="Password"
+                type={passState === true ? "text" : "password"}
+                onChange={(e) => setPassInput(e.target.value)}
+              />
+              <button
+                className="cursor-pointer"
+                onClick={() => setPassState(!passState)}
+              >
+                <FaEye />
+              </button>
+            </div>
             {errState.pass && (
               <p className="text-red-500 text-[14px] font-normal">
                 Incorrect password. Please try again.
@@ -120,15 +120,6 @@ export default function Home() {
           </button>
         </div>
         <LetsGo nextStep={nextButton} title={"Let's Go"} />
-        {/* <span className="text-zinc-300 font-normal text-4 flex justify-center gap-3">
-          {`Don’t have an account?`}
-          <button
-            className="text-blue-600 text-4 font-normal cursor-pointer hover:underline"
-            onClick={pushSignUp}
-          >
-            Sign up
-          </button>
-        </span> */}
         <AlreadyAccount
           title={"Don’t have an account?"}
           link={"Sign up "}

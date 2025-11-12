@@ -4,9 +4,9 @@ import { LogoIcon } from "../icons/logo-icon";
 
 export const Footer = () => {
   return (
-    <div className="w-[1440px] h-[755px] bg-zinc-900 flex flex-col justify-around">
+    <div className="w-[1440px] h-[755px] bg-zinc-900 flex flex-col justify-around items-center">
       <div className="bg-red-500 w-full h-[92px]"></div>
-      <div className="w-[1264px] h-[228px] flex gap-[220px] ml-[88px] justify-start items-start">
+      <div className="w-[1264px] h-[228px] flex gap-[220px] justify-start items-start">
         <div className="w-[88px] h-[93px] flex flex-col justify-start items-center gap-2">
           <LogoIcon />
           <div>
@@ -73,6 +73,16 @@ export const Footer = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="w-[1264px] h-[84px] border-t border-t-[#71717A] flex flex-row gap-12 items-center">
+        <p className="font-normal text-[14px] text-[#71717A]">
+          Copy right 2024 © Nomnom LLC
+        </p>
+        <p className="font-normal text-[14px] text-[#71717A]">Privacy policy</p>
+        <p className="font-normal text-[14px] text-[#71717A]">
+          Terms and conditoin
+        </p>
+        <p className="font-normal text-[14px] text-[#71717A]">Cookie policy</p>
       </div>
     </div>
   );
