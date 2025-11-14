@@ -1,15 +1,21 @@
 "use client";
+import { useState } from "react";
 import { PlusSignIcon } from "../icons/plusSignIcon";
+import { AddFoodCard } from "./addFoodCard";
 
 export const FoodCard = ({ data }) => {
+  const [foodCardState, setFoodCardState] = useState(false);
   return (
     <div className="w-[397px] h-[342px] p-4 bg-white rounded-xl flex flex-col justify-center gap-5">
       <div className="relative z-0 flex items-end justify-end w-[365px] h-[210px] ">
         <img
           src="/tsuivan3.png"
-          className="w-full h-full object-cover rounded-xl top-0 left-0 absolute z-[-1]"
+          className="w-full h-full object-cover rounded-xl absolute z-[-1]"
         />
-        <button className="mb-5 mr-5 w-11 h-11 rounded-full flex justify-center items-center bg-white cursor-pointer">
+        <button
+          className="mb-5 mr-5 w-11 h-11 rounded-full flex justify-center items-center bg-white cursor-pointer"
+          onClick={() => setFoodCardState(true)}
+        >
           <PlusSignIcon />
         </button>
       </div>
@@ -26,6 +32,7 @@ export const FoodCard = ({ data }) => {
           </p>
         </div>
       </div>
+      {foodCardState && <AddFoodCard exit={() => setFoodCardState(false)} />}
     </div>
   );
 };

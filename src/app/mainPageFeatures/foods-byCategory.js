@@ -17,8 +17,8 @@ export const FoodsByCategorySection = ({ data }) => {
   useEffect(() => {
     getFoodData();
   }, []);
-  console.log(foodData, "food data");
-  console.log(data, "category data");
+  // console.log(foodData, "food data");
+  // console.log(data, "category data");
 
   const filteredFoodData = foodData.filter((food) => {
     const filter = food.category?._id === data?._id;

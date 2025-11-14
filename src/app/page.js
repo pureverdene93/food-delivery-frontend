@@ -18,10 +18,10 @@ export default function Home() {
 
   useEffect(() => {
     getAndFetchData();
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (!token) router.push("/auth/login");
-    }
+    // if (typeof window !== "undefined") {
+    //   const token = localStorage.getItem("token");
+    //   if (!token) router.push("/auth/login");
+    // }
   }, []);
 
   return (
