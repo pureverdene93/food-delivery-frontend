@@ -3,10 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { CategoryButton } from "../components/categoryButton";
 import { AddFoodIcon } from "@/app/icons/addFoodIcon";
-import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { CategorySection } from "../components/categorySection";
 import { AddCategoryCard } from "../components/addCategoryCard";
-import { jwtDecode } from "jwt-decode";
 
 export const FoodMenu = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -23,17 +21,15 @@ export const FoodMenu = () => {
   const getDataTest = async () => {
     const data = await fetch(apiLinkTest, getOptionTest);
     const jsonData = await data.json();
-    // console.log("this is category data", jsonData);
     setCategoryData(jsonData);
     const foodData = await fetch(foodApiLink, getOptionTest);
     const jsonFoodData = await foodData.json();
     setFoodData(jsonFoodData);
   };
 
-  // const showCategoryByName = () => {
-  //   setCategoryName(categoryData.categoryName);
-  //   console.log("this is category name", categoryName);
-  // };
+  const showCategoryByName = () => {
+    setCategoryName(categoryData.categoryName);
+  };
 
   const foodCountById = (categoryId) => {
     return foodData.filter((foodId) => foodId.category?._id === categoryId)
@@ -66,7 +62,7 @@ export const FoodMenu = () => {
               <div key={category._id}>
                 <CategoryButton
                   categoryName={category.categoryName}
-                  // showedByCategory={showCategoryByName}
+                  showedByCategory={showCategoryByName}
                   foodCount={foodCountById(category._id)}
                 />
               </div>
