@@ -34,7 +34,7 @@ export const FoodsByCategorySection = ({ data }) => {
         {filteredFoodData.map((food) => {
           return (
             <div key={food._id}>
-              <FoodCard data={food} />
+              <FoodCard data={food} foodId={food._id} />
             </div>
           );
         })}

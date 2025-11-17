@@ -152,3 +152,21 @@ body {
 .animate-slideOut {
   animation: slideOut 0.35s ease-out forwards;
 }
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+.marquee {
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  gap: 80px;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  left: 100%;
+  position: absolute;
+}

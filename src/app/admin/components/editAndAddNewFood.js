@@ -11,9 +11,9 @@ export const EditAndAddNewFood = (props) => {
   const [foodPrice, setFoodPrice] = useState("");
   const [foodIngredients, setFoodIngredients] = useState("");
   const [foodImage, setFoodImage] = useState(null);
-  console.log("food name", foodName);
-  console.log("food price", foodPrice);
-  console.log("food ingredients", foodIngredients);
+  // console.log("food name", foodName);
+  // console.log("food price", foodPrice);
+  // console.log("food ingredients", foodIngredients);
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");

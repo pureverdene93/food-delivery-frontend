@@ -1,12 +1,48 @@
+"use client";
+import { useState } from "react";
+import { useEffect } from "react";
 import { FacebookIcon } from "../icons/facebook-icon";
 import { IgIcon } from "../icons/ig-icon";
 import { LogoIcon } from "../icons/logo-icon";
 
+const getOption = { method: "GET" };
+const foodApiLink = `http://localhost:8000/food`;
+
 export const Footer = () => {
+  const [foodData, setFoodData] = useState([]);
+  const getData = async () => {
+    const fetchData = await fetch(foodApiLink, getOption);
+    const jsonData = await fetchData.json();
+    setFoodData(jsonData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="w-[1440px] h-[755px] bg-zinc-900 flex flex-col justify-around items-center">
-      <div className="bg-red-500 w-full h-[92px]"></div>
-      <div className="w-[1264px] h-[228px] flex gap-[220px] justify-start items-start">
+      <div className="bg-red-500 w-full h-[92px] overflow-hidden relative flex items-center">
+        <div className="marquee ">
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+          <p className="text-[30px] font-semibold text-white ">
+            Fresh fast delivered
+          </p>
+        </div>
+      </div>
+      <div className="w-[1264px] h-[228px] flex gap-[220px] justify-start items-start mb-[104px]">
         <div className="w-[88px] h-[93px] flex flex-col justify-start items-center gap-2">
           <LogoIcon />
           <div>
@@ -17,7 +53,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex gap-[120px] items-baseline">
-          <div className="flex flex-col w-[122px] h-[148px] gap-4 items-baseline">
+          <div className="flex flex-col min-w-[122px] h-[148px] gap-4 items-baseline">
             <p className="text-[16px] font-normal text-[#71717A]">NOMNOM</p>
             <button className="text-[16px] font-normal text-white cursor-pointer">
               Home
@@ -29,39 +65,22 @@ export const Footer = () => {
               Delivery zone
             </button>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 ">
             <p className="text-[16px] font-normal text-[#71717A]">MENU</p>
-            <div className="flex flex-wrap w-[320px] justify-between gap-4 ">
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
-              <p className="text-[16px] text-white font-normal w-[132px]">
-                Appetizers
-              </p>
+            <div className="flex flex-wrap min-w-[320px] justify-between gap-4 ">
+              {foodData.map((food) => {
+                return (
+                  <p
+                    className="text-[16px] text-white font-normal w-[132px]"
+                    key={food._id}
+                  >
+                    {food.foodName}
+                  </p>
+                );
+              })}
             </div>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 min-w-[122px]">
             <p className="text-[16px] font-normal text-[#71717A]">FOLLOW US</p>
             <div className="flex flex-row gap-4">
               <button className="cursor-pointer">

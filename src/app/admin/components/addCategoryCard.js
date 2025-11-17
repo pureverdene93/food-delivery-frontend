@@ -8,11 +8,11 @@ export const AddCategoryCard = (props) => {
 
   const [saveCategory, setSaveCategory] = useState("");
   const [token, setToken] = useState(null);
-  console.log(saveCategory);
+  // console.log(saveCategory);
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");
-    console.log(adminToken);
+    // console.log(adminToken);
 
     if (adminToken) {
       setToken(adminToken);

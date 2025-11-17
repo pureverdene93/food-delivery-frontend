@@ -1,10 +1,25 @@
 "use client";
+import { useEffect } from "react";
 import { useState } from "react";
 import { PlusSignIcon } from "../icons/plusSignIcon";
 import { AddFoodCard } from "./addFoodCard";
 
-export const FoodCard = ({ data }) => {
+const getOption = { method: "GET" };
+
+export const FoodCard = ({ data, foodId }) => {
+  const foodApiLink = `http://localhost:8000/food/${foodId}`;
   const [foodCardState, setFoodCardState] = useState(false);
+  const [foodData, setFoodData] = useState([]);
+
+  const getData = async () => {
+    const data = await fetch(foodApiLink, getOption);
+    const jsonData = await data.json();
+    setFoodData(jsonData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="w-[397px] h-[342px] p-4 bg-white rounded-xl flex flex-col justify-center gap-5">
       <div className="relative z-0 flex items-end justify-end w-[365px] h-[210px] ">
@@ -32,7 +47,9 @@ export const FoodCard = ({ data }) => {
           </p>
         </div>
       </div>
-      {foodCardState && <AddFoodCard exit={() => setFoodCardState(false)} />}
+      {foodCardState && (
+        <AddFoodCard exit={() => setFoodCardState(false)} data={foodData} />
+      )}
     </div>
   );
 };

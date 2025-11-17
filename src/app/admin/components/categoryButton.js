@@ -1,12 +1,13 @@
 export const CategoryButton = (props) => {
-  const { categoryName, showedByCategory, category, foodCount } = props;
+  const { showedByCategory, categoryName, foodCount, categoryId, current } =
+    props;
 
   return (
     <button
       className={`h-9 border rounded-[50px]
         cursor-pointer flex justify-center gap-2 items-center text-[14px]
         font-medium text-black pl-4 pr-4 ${
-          category === "All dishes" ? "border-red-500" : "border-zinc-300"
+          current === categoryId ? "border-red-500" : "border-zinc-300"
         }`}
       onClick={showedByCategory}
     >

@@ -37,11 +37,11 @@ export const EditFoodInfo = (props) => {
   const findCategoryId = categoryData.find((category) => {
     return category.categoryName === changeCategory;
   });
-  console.log(findCategoryId, "ene yg yu butsagad baigaanbee");
+  // console.log(findCategoryId, "ene yg yu butsagad baigaanbee");
 
   const editAndSaveFoodInfo = async () => {
     try {
-      await fetch(`http://localhost:8000/food/${foodId}`, {
+      await fetch(`http://localhost:8000/food/category-id/${foodId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

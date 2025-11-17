@@ -14,19 +14,19 @@ export const CategorySection = (props) => {
   const [filteredFoodData, setFilteredFoodData] = useState([]);
 
   const foodApiLink = `http://localhost:8000/food`;
-  const getFoodById = `http://localhost:8000/food/${category._id}`;
+  const getFoodById = `http://localhost:8000/food/category-id/${category._id}`;
 
   const getFoodData = async () => {
     const foodData = await fetch(foodApiLink, option);
     const jsonData = await foodData.json();
     setFoodData(jsonData);
-    console.log("this is food data", jsonData);
+    // console.log("this is food data", jsonData);
     const filteredFoodData = await fetch(getFoodById, option);
     const filteredJsonData = await filteredFoodData.json();
     setFilteredFoodData(filteredJsonData);
   };
 
-  console.log("this is filtered food data", filteredFoodData);
+  // console.log("this is filtered food data", filteredFoodData);
 
   useEffect(() => {
     getFoodData();
@@ -36,6 +36,7 @@ export const CategorySection = (props) => {
     <div
       className="bg-white flex w-[1171px] min-h-[325px]
       shrink-0 rounded-2xl flex-col gap-4 p-5"
+      id={`category-${category._id}`}
     >
       <p className="text-5 font-semibold text-black">{category.categoryName}</p>
       <div className="flex flex-wrap gap-4">

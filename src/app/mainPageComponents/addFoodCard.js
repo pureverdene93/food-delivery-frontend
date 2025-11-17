@@ -1,9 +1,11 @@
 "use client";
+import { useState } from "react";
+import { useEffect } from "react";
 import { MinusIcon } from "lucide-react";
 import { SetFalseDeliveryState } from "../icons/setFalseDeliveryState-icon";
 import { PlusSignIcon } from "../icons/plusSignIcon";
 
-export const AddFoodCard = ({ exit }) => {
+export const AddFoodCard = ({ exit, data }) => {
   return (
     <div className="fixed z-50 flex justify-center items-center w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.5)]">
       <div className="w-[826px] h-[412px] bg-white rounded-xl flex flex-row p-6 justify-between">
@@ -23,11 +25,10 @@ export const AddFoodCard = ({ exit }) => {
             </div>
             <div>
               <p className="text-[30px] font-semibold text-red-500">
-                Sunshine Stackers
+                {data.foodName}
               </p>
               <p className="text-[16px] text-black font-normal">
-                Fluffy pancakes stacked with fruits, cream, syrup, and powdered
-                sugar.
+                {data.ingredients}
               </p>
             </div>
           </div>
@@ -37,7 +38,9 @@ export const AddFoodCard = ({ exit }) => {
                 <p className="text-[16px] font-normal text-black">
                   Total price
                 </p>
-                <p className="teext-[24px] text-black font-semibold">$12.99</p>
+                <p className="teext-[24px] text-black font-semibold">
+                  ${data.price}
+                </p>
               </div>
               <div className="flex items-center gap-3">
                 <button className="w-11 h-11 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center">
