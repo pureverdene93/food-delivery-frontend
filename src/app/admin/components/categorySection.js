@@ -31,6 +31,7 @@ export const CategorySection = (props) => {
   useEffect(() => {
     getFoodData();
   }, []);
+  console.log(filteredFoodData, "this is food data jflerhgileurhiouger");
 
   return (
     <div
@@ -54,6 +55,7 @@ export const CategorySection = (props) => {
                 foodIngredients={food.ingredients}
                 foodPrice={food.price}
                 getFoodData={getFoodData}
+                foodImg={food.image}
               />
             </div>
           );

@@ -4,16 +4,37 @@ import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { useState } from "react";
 import { AddImage } from "./addImage";
 
+const CLOUD_NAME = "dbgjtqspn";
+const UPLOAD_PRESET = "food_delivery";
+
 export const EditAndAddNewFood = (props) => {
   const { exit, title, getFoodData, category } = props;
   const [token, setToken] = useState(null);
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
   const [foodIngredients, setFoodIngredients] = useState("");
-  const [foodImage, setFoodImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
   // console.log("food name", foodName);
   // console.log("food price", foodPrice);
   // console.log("food ingredients", foodIngredients);
+
+  const uploadToCloudinary = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    setUploading(false);
+    setImageUrl(data.secure_url);
+  };
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");
@@ -23,6 +44,9 @@ export const EditAndAddNewFood = (props) => {
   }, []);
 
   const addNewDish = async () => {
+    if (uploading) {
+      alert("please wait");
+    }
     try {
       await fetch("http://localhost:8000/food", {
         method: "POST",
@@ -34,7 +58,7 @@ export const EditAndAddNewFood = (props) => {
         body: JSON.stringify({
           foodName: foodName,
           price: Number(foodPrice),
-          image: foodImage,
+          image: imageUrl,
           ingredients: foodIngredients,
           category: category._id,
         }),
@@ -95,7 +119,10 @@ export const EditAndAddNewFood = (props) => {
         </div>
         <div className="flex flex-col w-[412px] items-baseline gap-2">
           <p>Food image</p>
-          <AddImage wh={`w-[412px] h-[138px]`} />
+          <AddImage
+            wh={`w-[412px] h-[138px]`}
+            uploadToCloudinary={uploadToCloudinary}
+          />
         </div>
 
         <div className="w-[412px] flex justify-end">

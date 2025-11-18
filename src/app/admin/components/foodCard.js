@@ -11,10 +11,7 @@ export const FoodCard = (props) => {
   return (
     <div className="w-[270px] h-[241px] border border-zinc-300 rounded-[20px] flex flex-col items-center justify-evenly">
       <div className="relative w-[238px] h-[129px]">
-        <img
-          src="/tsuivan3.png"
-          className="object-cover w-full h-full rounded-2xl"
-        />
+        <img src={foodImg} className="object-cover w-full h-full rounded-2xl" />
         <button
           className="w-11 h-11 bg-white rounded-full flex 
         absolute bottom-5 right-5 justify-center items-center cursor-pointer"

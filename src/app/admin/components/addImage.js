@@ -3,7 +3,7 @@ import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { useState } from "react";
 
 export const AddImage = (props) => {
-  const { wh } = props;
+  const { wh, uploadToCloudinary } = props;
   const [image, setImage] = useState(null);
   const imageUpload = (event) => {
     const imageDisplay = event.target.files[0];
@@ -11,6 +11,7 @@ export const AddImage = (props) => {
       setImage(URL.createObjectURL(imageDisplay));
     }
   };
+  console.log(uploadToCloudinary);
 
   return (
     <label htmlFor="image-upload" className={`${wh}`}>
@@ -21,7 +22,11 @@ export const AddImage = (props) => {
               border-blue-300 rounded-xl`}
             type="file"
             id="image-upload"
-            onChange={imageUpload}
+            onChange={(e) => {
+              uploadToCloudinary(e.target.files[0]);
+              imageUpload(e);
+            }}
+            accept="image/*"
           />
         </div>
       )}

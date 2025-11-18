@@ -24,7 +24,7 @@ export const FoodCard = ({ data, foodId }) => {
     <div className="w-[397px] h-[342px] p-4 bg-white rounded-xl flex flex-col justify-center gap-5">
       <div className="relative z-0 flex items-end justify-end w-[365px] h-[210px] ">
         <img
-          src="/tsuivan3.png"
+          src={data.image}
           className="w-full h-full object-cover rounded-xl absolute z-[-1]"
         />
         <button

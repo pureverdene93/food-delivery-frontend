@@ -9,6 +9,9 @@ const option = {
   method: "GET",
 };
 
+const CLOUD_NAME = "dbgjtqspn";
+const UPLOAD_PRESET = "food_delivery";
+
 export const EditFoodInfo = (props) => {
   const { exit, foodId, getFoodData } = props;
 
@@ -21,14 +24,14 @@ export const EditFoodInfo = (props) => {
   const [editFoodName, setEditFoodName] = useState("");
   const [editIngredients, setEditIgredients] = useState("");
   const [editPrice, setEditPrice] = useState("");
-  const [editImage, setEditImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+
   const getData = async () => {
     const categoryData = await fetch(categoryApiLink, option);
     const jsonCategoryData = await categoryData.json();
     setCategoryData(jsonCategoryData);
   };
-
-  console.log(changeCategory, "changeCategory");
 
   const clickAndChangeCategory = (newCategory) => {
     setChangeCategory(newCategory);
@@ -37,11 +40,31 @@ export const EditFoodInfo = (props) => {
   const findCategoryId = categoryData.find((category) => {
     return category.categoryName === changeCategory;
   });
-  // console.log(findCategoryId, "ene yg yu butsagad baigaanbee");
+
+  const uploadToCloudinary = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    setUploading(false);
+    setImageUrl(data.secure_url);
+  };
 
   const editAndSaveFoodInfo = async () => {
+    if (uploading) {
+      alert("please wait");
+    }
     try {
-      await fetch(`http://localhost:8000/food/category-id/${foodId}`, {
+      console.log("findCategoryId", findCategoryId);
+      await fetch(`http://localhost:8000/food/${foodId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -51,10 +74,26 @@ export const EditFoodInfo = (props) => {
         body: JSON.stringify({
           foodName: editFoodName,
           price: Number(editPrice),
-          image: editImage,
           ingredients: editIngredients,
           category: findCategoryId._id,
+          image: imageUrl,
         }),
+      });
+      await getFoodData();
+      exit();
+    } catch (err) {
+      console.log("this is error", err);
+    }
+  };
+  const deleteFood = async () => {
+    try {
+      await fetch(`http://localhost:8000/food/${foodId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+        },
       });
       await getFoodData();
       exit();
@@ -68,7 +107,7 @@ export const EditFoodInfo = (props) => {
       setToken(adminToken);
     }
     getData();
-  }, [editAndSaveFoodInfo, getFoodData()]);
+  }, []);
 
   return (
     <div
@@ -162,12 +201,16 @@ export const EditFoodInfo = (props) => {
           </div>
           <div className="flex justify-between">
             <p className="text-[12px] text-gray-500 font-normal">Image</p>
-            <AddImage wh={`w-[288px] h-[116px]`} />
+            <AddImage
+              wh={`w-[288px] h-[116px]`}
+              uploadToCloudinary={uploadToCloudinary}
+            />
           </div>
           <div className="flex justify-between">
             <button
               className="cursor-pointer w-12 h-10 border border-red-500 rounded-xl
             flex justify-center items-center"
+              onClick={deleteFood}
             >
               <DeleteIconSVG />
             </button>
