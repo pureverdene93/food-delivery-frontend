@@ -7,6 +7,16 @@ import { PlusSignIcon } from "../icons/plusSignIcon";
 
 export const AddFoodCard = ({ exit, data }) => {
   const [countFood, setCountFood] = useState(0);
+  const [foodCard, setFoodCard] = useState([]);
+
+  const getDataSafe = () => {
+    try {
+      const exitingFoodCard = JSON.parse(localStorage.getItem("addedCard"));
+      return Array.isArray(exitingFoodCard) ? exitingFoodCard : [];
+    } catch (error) {
+      [];
+    }
+  };
 
   const countFoodMinus = () => {
     if (countFood === 0) {
@@ -17,27 +27,30 @@ export const AddFoodCard = ({ exit, data }) => {
     }
   };
 
+  useEffect(() => {
+    setFoodCard(getDataSafe());
+  }, []);
+
   const checkOrder = () => {
     if (countFood === 0) return;
+    const currenCard = Array.isArray(foodCard) ? [...foodCard] : [];
     const orderItems = {
       id: data._id,
       addedToFoodCardData: data,
       quantity: countFood,
       totalPrice: data.price * countFood,
     };
-    const exitingFoodCard = JSON.parse(localStorage.getItem("addedCard")) || [];
-    const alreadyHas = exitingFoodCard.findIndex(
-      (item) => item.id === data._id
-    );
+
+    const alreadyHas = currenCard.findIndex((item) => item.id === data._id);
 
     if (alreadyHas !== -1) {
-      exitingFoodCard[alreadyHas].quantity += countFood;
-      exitingFoodCard[alreadyHas].totalPrice =
-        exitingFoodCard[alreadyHas].quantity * data.price;
+      currenCard[alreadyHas].quantity += countFood;
+      currenCard[alreadyHas].totalPrice =
+        currenCard[alreadyHas].quantity * data.price;
     } else {
-      exitingFoodCard.push(orderItems);
+      currenCard.push(orderItems);
     }
-    localStorage.setItem("addedCard", JSON.stringify(exitingFoodCard));
+    localStorage.setItem("addedCard", JSON.stringify(currenCard));
     exit();
   };
 
