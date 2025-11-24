@@ -1,13 +1,24 @@
 "use client";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import { UpAndDown } from "@/app/icons/upAndDown";
 import { Orders } from "../components/orders";
 import { ChangeAllDeliveryState } from "../components/chageAllDeliveryState";
+const getOption = { method: "GET" };
+const orderApiLink = `http://localhost:8000/order`;
 
 export const FoodOrder = () => {
   const [state, setState] = useState(false);
   const [deliveryState, setDeliveryState] = useState(false);
+  const [orderData, setOrderData] = useState([]);
+
+  const getData = async () => {
+    const orderDataFetch = await fetch(orderApiLink, getOption);
+    const orderJsonData = await orderDataFetch.json();
+    setOrderData(orderJsonData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   const countDeliveryState = Object.values(state).reduce(
     (prev, cur) => (cur === true ? prev + 1 : prev),
@@ -117,9 +128,17 @@ export const FoodOrder = () => {
           </div>
         </div>
         <div className="divide-y">
-          <Orders countDeliveryState={checkOrder} index={0} />
-          <Orders countDeliveryState={checkOrder} index={1} />
-          <Orders countDeliveryState={checkOrder} index={2} />
+          {orderData.map((order) => {
+            return (
+              <div key={order._id}>
+                <Orders
+                  countDeliveryState={checkOrder}
+                  index={0}
+                  orderData={order}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

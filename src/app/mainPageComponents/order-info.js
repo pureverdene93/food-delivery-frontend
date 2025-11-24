@@ -54,7 +54,11 @@ export const OrderInfo = ({ exit }) => {
             Order
           </button>
         </div>
-        {orderDetail === "Cart" ? <OrderDetailCart /> : <OrderDetailOrder />}
+        {orderDetail === "Cart" ? (
+          <OrderDetailCart animationEnd={animationEnd} />
+        ) : (
+          <OrderDetailOrder />
+        )}
       </div>
     </div>
   );

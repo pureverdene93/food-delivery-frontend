@@ -8,7 +8,6 @@ import { LocationIcon } from "../icons/LocationIcon";
 import { AddLocIcon } from "../icons/addLocIcon";
 import { AddAdress } from "../mainPageComponents/addAdress";
 import { UserSection } from "../mainPageComponents/userSection";
-import { jwtDecode } from "jwt-decode";
 import { OrderInfo } from "../mainPageComponents/order-info";
 
 export const Header = () => {

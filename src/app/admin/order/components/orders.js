@@ -1,5 +1,4 @@
 "use client";
-
 import { DownIcon } from "@/app/icons/downIcon";
 import { useState } from "react";
 import { OrderedFood } from "./orderFood";
@@ -9,7 +8,7 @@ export const Orders = (props) => {
   const [state, setState] = useState(false);
   const [status, setStatus] = useState("Pending");
   const [orderFoodState, setOrderedFoodState] = useState(false);
-  const { countDeliveryState, index } = props;
+  const { countDeliveryState, index, orderData } = props;
 
   const handleDelivered = () => {
     setStatus("Delivered");
@@ -34,6 +33,7 @@ export const Orders = (props) => {
     setState(false);
   };
   console.log("this is state", state);
+  console.log(orderData, "this is order data");
 
   return (
     <div className="h-14 flex flex-row border-b">
@@ -45,11 +45,11 @@ export const Orders = (props) => {
         />
       </div>
       <div className="w-14 h-14 flex justify-center items-center">
-        <span className="text-[14px] font-normal">1</span>
+        <span className="text-[14px] font-normal">{index}</span>
       </div>
       <div className="w-[213px] h-14 flex items-center justify-start ">
         <span className="text-[14px] font-medium text-gray-500 pl-4">
-          testOrder@gmail.com
+          {orderData.user.email}
         </span>
       </div>
       <div className="w-40 h-14 flex justify-start items-center relative">
@@ -80,12 +80,12 @@ export const Orders = (props) => {
       </div>
       <div className="w-40 h-14 flex justify-start items-center">
         <span className="text-[14px] font-medium text-gray-500 pl-4">
-          $26.97
+          ${orderData.totalPrice}
         </span>
       </div>
       <div className="w-[213px] h-14 flex items-center justify-start">
         <span className="text-[12px] text-gray-500 font-medium w-[181px] h-8 pl-4">
-          {"2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd"}
+          {orderData.user.adress}
         </span>
       </div>
       <div className="w-40 h-14 flex items-center justify-start">

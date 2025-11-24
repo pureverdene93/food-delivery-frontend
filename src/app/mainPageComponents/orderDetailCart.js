@@ -4,11 +4,14 @@ import { useEffect } from "react";
 import { FoodCardFromOrderInfo } from "./foodCardFromOrderInfo";
 import { BiggerIcon } from "../icons/biggerIcon";
 import { jwtDecode } from "jwt-decode";
+import { createPortal } from "react-dom";
+import { OrderSucces } from "../icons/orderSuccesIcon";
 
-export const OrderDetailCart = () => {
+export const OrderDetailCart = ({ animationEnd }) => {
   const [foodCardData, setFoodCardData] = useState([]);
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [userData, setUserData] = useState([]);
+  const [orderSucces, setOrderSucces] = useState(false);
 
   const getDataSafe = () => {
     try {
@@ -19,14 +22,23 @@ export const OrderDetailCart = () => {
     }
   };
   const totalPrice = foodCardData.reduce(
-    (sum, items) => sum + items.totalPrice || 0,
+    (sum, items) => sum + (items.totalPrice || 0),
     0
   );
-  console.log("this is total price", totalPrice);
+
+  const backToHome = () => {
+    setOrderSucces(false);
+  };
+  console.log("this is total price", foodCardData);
 
   const createOrder = async () => {
     try {
-      await fetch("http://localhost:8000/order", {
+      const goToBackEndCard = foodCardData.map((data) => ({
+        food: data.id,
+        quantity: Number(data.quantity),
+      }));
+
+      await fetch(`http://localhost:8000/order`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -35,19 +47,25 @@ export const OrderDetailCart = () => {
         body: JSON.stringify({
           user: userData,
           totalPrice: totalPrice,
-          foodOrderItems: foodCardData,
+          foodOrderItem: goToBackEndCard,
         }),
       });
+      localStorage.removeItem("addedCard");
+      setFoodCardData([]);
+      setOrderSucces(true);
     } catch (err) {
       console.log(err);
     }
   };
 
+  console.log(userData, "my id");
+
   useEffect(() => {
     setFoodCardData(getDataSafe());
     const user = localStorage.getItem("token");
     const decodedToken = jwtDecode(user);
-    const stringifyId = decodedToken._id;
+    console.log(decodedToken, "token");
+    const stringifyId = decodedToken.id;
     setUserData(stringifyId);
   }, []);
   console.log(deliveryLocation);
@@ -160,6 +178,24 @@ export const OrderDetailCart = () => {
           </>
         )}
       </div>
+      {orderSucces &&
+        createPortal(
+          <div className="fixed inset-0 z-50 w-full h-full top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)]">
+            <div className="bg-white w-[664px] h-[439px] rounded-xl flex flex-col items-center justify-evenly">
+              <h3 className="text-black font-semibold text-[24px]">
+                Your order has been successfully placed !
+              </h3>
+              <OrderSucces />
+              <button
+                className="bg-[#F4F4F5] w-[188px] h-11 justify-center flex items-center rounded-xl cursor-pointer text-black text-[14px] font-medium"
+                onClick={backToHome}
+              >
+                Back to home
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
