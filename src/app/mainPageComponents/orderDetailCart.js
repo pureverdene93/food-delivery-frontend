@@ -29,7 +29,7 @@ export const OrderDetailCart = ({ animationEnd }) => {
   const backToHome = () => {
     setOrderSucces(false);
   };
-  console.log("this is total price", foodCardData);
+  console.log("this is food card data", foodCardData);
 
   const createOrder = async () => {
     try {
@@ -46,7 +46,7 @@ export const OrderDetailCart = ({ animationEnd }) => {
         },
         body: JSON.stringify({
           user: userData,
-          totalPrice: totalPrice,
+          totalPrice: totalPrice + 0.99,
           foodOrderItem: goToBackEndCard,
         }),
       });

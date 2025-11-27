@@ -128,13 +128,14 @@ export const FoodOrder = () => {
           </div>
         </div>
         <div className="divide-y">
-          {orderData.map((order) => {
+          {orderData.map((order, index) => {
             return (
               <div key={order._id}>
                 <Orders
                   countDeliveryState={checkOrder}
-                  index={0}
+                  index={index}
                   orderData={order}
+                  getData={getData}
                 />
               </div>
             );

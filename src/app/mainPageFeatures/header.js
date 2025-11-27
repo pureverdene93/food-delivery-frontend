@@ -10,16 +10,26 @@ import { AddAdress } from "../mainPageComponents/addAdress";
 import { UserSection } from "../mainPageComponents/userSection";
 import { OrderInfo } from "../mainPageComponents/order-info";
 
+const userApiLink = `http://localhost:8000/user`;
+const getOption = { method: "GET" };
+
 export const Header = () => {
   const router = useRouter();
   const [locationState, setLocationState] = useState(false);
   const [userState, setUserState] = useState(false);
   const [orderState, setOrderState] = useState(false);
   const [token, setToken] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const getData = async () => {
+    const data = await fetch(userApiLink, getOption);
+    const jsonData = data.json();
+    setUserData(jsonData);
+  };
 
   useEffect(() => {
     const tokenFromLocalStorage = localStorage.getItem("token");
     setToken(tokenFromLocalStorage);
+    getData();
   }, []);
 
   return (

@@ -1,32 +1,53 @@
 "use client";
+import { useEffect } from "react";
 import { DownIcon } from "@/app/icons/downIcon";
 import { useState } from "react";
 import { OrderedFood } from "./orderFood";
 import { UpAndDown } from "@/app/icons/upAndDown";
+import { jwtDecode } from "jwt-decode";
 
 export const Orders = (props) => {
+  const { countDeliveryState, index, orderData, getData } = props;
   const [state, setState] = useState(false);
-  const [status, setStatus] = useState("Pending");
   const [orderFoodState, setOrderedFoodState] = useState(false);
-  const { countDeliveryState, index, orderData } = props;
+  const [userId, setUserId] = useState("");
+  const [token, setToken] = useState(null);
+  const [status, setStatus] = useState(orderData.status);
 
-  const handleDelivered = () => {
-    setStatus("Delivered");
-    setState(false);
-  };
+  console.log(orderData, "jdfgiuergliuyegr");
 
-  const handleCancelled = () => {
-    setStatus("Cancelled");
-    setState(false);
-  };
+  useEffect(() => {
+    const adminToken = localStorage.getItem("token");
+    if (adminToken) {
+      setToken(adminToken);
+      const decoded = jwtDecode(adminToken);
+      setUserId(decoded.id);
+    }
+  }, []);
 
-  const handlePending = () => {
-    setStatus("Pending");
-    setState(false);
+  const changeStatus = async (status) => {
+    try {
+      await fetch(`http://localhost:8000/order/${orderData._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status: status,
+        }),
+      });
+      setStatus(status);
+      await getData();
+    } catch (err) {
+      console.log("error from client side", err);
+    }
   };
 
   const statusBtn = () => {
     setState(!state);
+    console.log("changed");
   };
   const changeOrderedFoodState = () => {
     setOrderedFoodState(!orderFoodState);
@@ -45,7 +66,7 @@ export const Orders = (props) => {
         />
       </div>
       <div className="w-14 h-14 flex justify-center items-center">
-        <span className="text-[14px] font-normal">{index}</span>
+        <span className="text-[14px] font-normal">{index + 1}</span>
       </div>
       <div className="w-[213px] h-14 flex items-center justify-start ">
         <span className="text-[14px] font-medium text-gray-500 pl-4">
@@ -93,7 +114,9 @@ export const Orders = (props) => {
           className={`min-w-[94px] h-8 border cursor-pointer rounded-[80px] text-[12px] 
         font-semibold ml-4 flex items-center justify-evenly ${
           status === "Pending" ? "border-red-500" : ""
-        } ${status === "Delivered" ? "border-green-500" : ""}`}
+        } ${status === "Cancelled" ? "border-zinc-300" : ""} ${
+            status === "Delivered" ? "border-green-500" : ""
+          }`}
           onClick={statusBtn}
         >
           {status} <UpAndDown />
@@ -106,21 +129,30 @@ export const Orders = (props) => {
             <button
               className="cursor-pointer w-[75px] h-6 bg-zinc-100
             rounded-2xl text-[12px] font-medium text-black"
-              onClick={handleDelivered}
+              onClick={() => {
+                changeStatus("Delivered");
+                setState(false);
+              }}
             >
               Delivered
             </button>
             <button
               className={`cursor-pointer w-[67px] h-6 bg-zinc-100
             rounded-2xl text-[12px] font-medium text-black`}
-              onClick={handlePending}
+              onClick={() => {
+                changeStatus("Pending");
+                setState(false);
+              }}
             >
               Pending
             </button>
             <button
               className="cursor-pointer w-[78px] h-6 bg-zinc-100
             rounded-2xl text-[12px] font-medium text-black"
-              onClick={handleCancelled}
+              onClick={() => {
+                changeStatus("Cancelled");
+                setState(false);
+              }}
             >
               Cancelled
             </button>
