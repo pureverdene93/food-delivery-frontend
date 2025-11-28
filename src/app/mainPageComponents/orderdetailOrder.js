@@ -1,3 +1,4 @@
+"use client";
 import { MapIcon } from "../icons/mapIcon";
 import { OrderedFoodIcon } from "../icons/orderedFoodIcon";
 import { TimerIcon } from "../icons/timerIcon";

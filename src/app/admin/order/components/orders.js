@@ -6,6 +6,8 @@ import { OrderedFood } from "./orderFood";
 import { UpAndDown } from "@/app/icons/upAndDown";
 import { jwtDecode } from "jwt-decode";
 
+const getOption = { method: "GET" };
+
 export const Orders = (props) => {
   const { countDeliveryState, index, orderData, getData } = props;
   const [state, setState] = useState(false);
@@ -13,10 +15,25 @@ export const Orders = (props) => {
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState(null);
   const [status, setStatus] = useState(orderData.status);
+  const [foodOrderByUsedrId, setFoodOrderByUserId] = useState([]);
 
-  console.log(orderData, "jdfgiuergliuyegr");
+  const orderApiLink = `http://localhost:8000/order/${userId}`;
+
+  // console.log(orderData, "jdfgiuergliuyegr");
+
+  const getFoodOrderByUsedrId = async () => {
+    try {
+      const orderData = await fetch(orderApiLink, getOption);
+      const orderJsonData = await orderData.json();
+      setFoodOrderByUserId(orderJsonData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  console.log(foodOrderByUsedrId, "food orders by user id");
 
   useEffect(() => {
+    getFoodOrderByUsedrId();
     const adminToken = localStorage.getItem("token");
     if (adminToken) {
       setToken(adminToken);
@@ -47,14 +64,14 @@ export const Orders = (props) => {
 
   const statusBtn = () => {
     setState(!state);
-    console.log("changed");
+    // console.log("changed");
   };
   const changeOrderedFoodState = () => {
     setOrderedFoodState(!orderFoodState);
     setState(false);
   };
-  console.log("this is state", state);
-  console.log(orderData, "this is order data");
+  // console.log("this is state", state);
+  // console.log(orderData, "this is order data");
 
   return (
     <div className="h-14 flex flex-row border-b">
@@ -88,7 +105,13 @@ export const Orders = (props) => {
             className="absolute min-w-[264px] min-h-12 bg-white z-10
             rounded-xl border border-zinc-300 p-3 flex flex-col gap-3 mt-[110px]"
           >
-            <OrderedFood />
+            {foodOrderByUsedrId.map((order) => {
+              return (
+                <div key={order._id}>
+                  <OrderedFood orderData={order} />
+                </div>
+              );
+            })}
           </div>
         ) : (
           ""

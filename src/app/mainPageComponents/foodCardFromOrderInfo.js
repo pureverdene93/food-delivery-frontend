@@ -17,6 +17,7 @@ export const FoodCardFromOrderInfo = ({ items }) => {
     localStorage.setItem("addedCard", JSON.stringify(selectAndRemove));
     setLocData(selectAndRemove);
   };
+
   return (
     <div className="w-[439px] h-[140px] flex justify-between">
       <img
