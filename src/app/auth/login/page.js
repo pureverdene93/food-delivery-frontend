@@ -9,6 +9,8 @@ import { Titles } from "../authComponents/titles";
 import { AlreadyAccount } from "../authComponents/alreadyHaveAccount";
 import { FaEye } from "react-icons/fa";
 
+const backend_url = process.env.BACKEND_URL;
+
 export default function Home() {
   const router = useRouter();
   const [emailInput, setEmailInput] = useState("");
@@ -41,7 +43,7 @@ export default function Home() {
     const err = checkMailAndPass();
     if (Object.keys(err).length === 0) {
       try {
-        const res = await fetch("http://localhost:8000/user/signIn", {
+        const res = await fetch(`${backend_url}/user/signIn`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
