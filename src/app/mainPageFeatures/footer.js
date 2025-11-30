@@ -6,7 +6,8 @@ import { IgIcon } from "../icons/ig-icon";
 import { LogoIcon } from "../icons/logo-icon";
 
 const getOption = { method: "GET" };
-const foodApiLink = `http://localhost:8000/food`;
+const backend_url = process.env.BACKEND_URL;
+const foodApiLink = `${backend_url}/food`;
 
 export const Footer = () => {
   const [foodData, setFoodData] = useState([]);

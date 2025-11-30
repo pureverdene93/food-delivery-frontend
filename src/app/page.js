@@ -5,8 +5,9 @@ import { FoodsByCategorySection } from "./mainPageFeatures/foods-byCategory";
 import { Footer } from "./mainPageFeatures/footer";
 import { Header } from "./mainPageFeatures/header";
 
+const backend_url = process.env.BACKEND_URL;
 const optionGet = { method: "GET" };
-const categoryApiLinkGet = `http://localhost:8000/category`;
+const categoryApiLinkGet = `${backend_url}/category`;
 
 export default function Home() {
   const [categoryData, setCategoryData] = useState([]);

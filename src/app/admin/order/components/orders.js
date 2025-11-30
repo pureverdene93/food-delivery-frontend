@@ -7,6 +7,7 @@ import { UpAndDown } from "@/app/icons/upAndDown";
 import { jwtDecode } from "jwt-decode";
 
 const getOption = { method: "GET" };
+const backend_url = process.env.BACKEND_URL;
 
 export const Orders = (props) => {
   const { countDeliveryState, index, orderData, getData } = props;
@@ -17,7 +18,7 @@ export const Orders = (props) => {
   const [status, setStatus] = useState(orderData.status);
   const [foodOrderByUsedrId, setFoodOrderByUserId] = useState([]);
 
-  const orderApiLink = `http://localhost:8000/order/${userId}`;
+  const orderApiLink = `${backend_url}/order/${userId}`;
 
   // console.log(orderData, "jdfgiuergliuyegr");
 
@@ -44,7 +45,7 @@ export const Orders = (props) => {
 
   const changeStatus = async (status) => {
     try {
-      await fetch(`http://localhost:8000/order/${orderData._id}`, {
+      await fetch(`${backend_url}/order/${orderData._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

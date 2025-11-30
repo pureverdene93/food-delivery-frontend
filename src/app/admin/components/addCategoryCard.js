@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 
+const backend_url = process.env.BACKEND_URL;
+
 export const AddCategoryCard = (props) => {
   const { exit, categoryData, getDataTest } = props;
 
@@ -21,7 +23,7 @@ export const AddCategoryCard = (props) => {
 
   const addNewCategory = async () => {
     try {
-      await fetch("http://localhost:8000/category", {
+      await fetch(`${backend_url}/category`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

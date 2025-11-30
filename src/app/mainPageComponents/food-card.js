@@ -5,9 +5,10 @@ import { PlusSignIcon } from "../icons/plusSignIcon";
 import { AddFoodCard } from "./addFoodCard";
 
 const getOption = { method: "GET" };
+const backend_url = process.env.BACKEND_URL;
 
 export const FoodCard = ({ data, foodId }) => {
-  const foodApiLink = `http://localhost:8000/food/${foodId}`;
+  const foodApiLink = `${backend_url}/food/${foodId}`;
   const [foodCardState, setFoodCardState] = useState(false);
   const [foodData, setFoodData] = useState([]);
 

@@ -6,6 +6,9 @@ import { AddFoodIcon } from "@/app/icons/addFoodIcon";
 import { CategorySection } from "../components/categorySection";
 import { AddCategoryCard } from "../components/addCategoryCard";
 
+const backend_url = process.env.BACKEND_URL;
+console.log(backend_url, "this is backendURL");
+
 export const FoodMenu = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [categoryState, setCategoryState] = useState(false);
@@ -15,8 +18,8 @@ export const FoodMenu = () => {
   const getOptionTest = {
     method: "GET",
   };
-  const apiLinkTest = `http://localhost:8000/category`;
-  const foodApiLink = `http://localhost:8000/food`;
+  const apiLinkTest = `${backend_url}/category`;
+  const foodApiLink = `${backend_url}/food`;
 
   const getDataTest = async () => {
     const data = await fetch(apiLinkTest, getOptionTest);

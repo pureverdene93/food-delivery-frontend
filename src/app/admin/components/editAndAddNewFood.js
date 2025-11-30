@@ -6,6 +6,7 @@ import { AddImage } from "./addImage";
 
 const CLOUD_NAME = "dbgjtqspn";
 const UPLOAD_PRESET = "food_delivery";
+const backend_url = process.env.BACKEND_URL;
 
 export const EditAndAddNewFood = (props) => {
   const { exit, title, getFoodData, category } = props;
@@ -48,7 +49,7 @@ export const EditAndAddNewFood = (props) => {
       alert("please wait");
     }
     try {
-      await fetch("http://localhost:8000/food", {
+      await fetch(`${backend_url}/food`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

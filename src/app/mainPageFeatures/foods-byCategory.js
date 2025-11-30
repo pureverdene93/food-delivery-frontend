@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { FoodCard } from "../mainPageComponents/food-card";
 
 const optionGet = { method: "GET" };
-const foodApiLink = `http://localhost:8000/food`;
+const backend_url = process.env.BACKEND_URL;
 
 export const FoodsByCategorySection = ({ data }) => {
+  const foodApiLink = `${backend_url}/food`;
   const [foodData, setFoodData] = useState([]);
   const getFoodData = async () => {
     const foodData = await fetch(foodApiLink, optionGet);

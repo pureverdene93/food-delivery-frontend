@@ -7,6 +7,8 @@ import { jwtDecode } from "jwt-decode";
 import { createPortal } from "react-dom";
 import { OrderSucces } from "../icons/orderSuccesIcon";
 
+const backend_url = process.env.BACKEND_URL;
+
 export const OrderDetailCart = ({ animationEnd }) => {
   const [foodCardData, setFoodCardData] = useState([]);
   const [deliveryLocation, setDeliveryLocation] = useState("");
@@ -38,7 +40,7 @@ export const OrderDetailCart = ({ animationEnd }) => {
         quantity: Number(data.quantity),
       }));
 
-      await fetch(`http://localhost:8000/order`, {
+      await fetch(`${backend_url}/order`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -94,9 +96,9 @@ export const OrderDetailCart = ({ animationEnd }) => {
                 My cart
               </p>
               <div className="flex flex-col gap-5 divide-y h-[300px] overflow-y-scroll">
-                {foodCardData.map((items) => {
+                {foodCardData.map((items, index) => {
                   return (
-                    <div key={items.id}>
+                    <div key={index}>
                       <FoodCardFromOrderInfo items={items} />
                     </div>
                   );

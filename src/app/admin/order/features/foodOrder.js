@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import { UpAndDown } from "@/app/icons/upAndDown";
 import { Orders } from "../components/orders";
 import { ChangeAllDeliveryState } from "../components/chageAllDeliveryState";
+
+const backend_url = process.env.BACKEND_URL;
 const getOption = { method: "GET" };
-const orderApiLink = `http://localhost:8000/order`;
+const orderApiLink = `${backend_url}/order`;
 
 export const FoodOrder = () => {
   const [state, setState] = useState(false);
   const [deliveryState, setDeliveryState] = useState(false);
   const [orderData, setOrderData] = useState([]);
+
+  console.log(backend_url, "this is backendurl");
 
   const getData = async () => {
     const orderDataFetch = await fetch(orderApiLink, getOption);

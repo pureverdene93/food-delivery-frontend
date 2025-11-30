@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { Addfood } from "./addFood";
 import { FoodCard } from "./foodCard";
 
+const backend_url = process.env.BACKEND_URL;
+console.log(backend_url, "ukyergfuiyerghfyuerfgouyeriuygfeurygfueyrg");
+
 export const CategorySection = (props) => {
   const { category } = props;
 
@@ -13,8 +16,8 @@ export const CategorySection = (props) => {
   const [foodData, setFoodData] = useState([]);
   const [filteredFoodData, setFilteredFoodData] = useState([]);
 
-  const foodApiLink = `http://localhost:8000/food`;
-  const getFoodById = `http://localhost:8000/food/category-id/${category._id}`;
+  const foodApiLink = `${backend_url}/food`;
+  const getFoodById = `${backend_url}/food/category-id/${category._id}`;
 
   const getFoodData = async () => {
     const foodData = await fetch(foodApiLink, option);

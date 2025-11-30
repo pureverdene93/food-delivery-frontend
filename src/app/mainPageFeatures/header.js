@@ -10,7 +10,8 @@ import { AddAdress } from "../mainPageComponents/addAdress";
 import { UserSection } from "../mainPageComponents/userSection";
 import { OrderInfo } from "../mainPageComponents/order-info";
 
-const userApiLink = `http://localhost:8000/user`;
+const backend_url = process.env.BACKEND_URL;
+const userApiLink = `${backend_url}/user`;
 const getOption = { method: "GET" };
 
 export const Header = () => {

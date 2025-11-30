@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { AddImage } from "./addImage";
 import { DeleteIconSVG } from "@/app/icons/deleteIcon";
 
+const backend_url = process.env.BACKEND_URL;
+
 const option = {
   method: "GET",
 };
@@ -15,7 +17,7 @@ const UPLOAD_PRESET = "food_delivery";
 export const EditFoodInfo = (props) => {
   const { exit, foodId, getFoodData } = props;
 
-  const categoryApiLink = `http://localhost:8000/category`;
+  const categoryApiLink = `${backend_url}/category`;
 
   const [categoryData, setCategoryData] = useState([]);
   const [dropDown, setDropDown] = useState(false);
@@ -64,7 +66,7 @@ export const EditFoodInfo = (props) => {
     }
     try {
       console.log("findCategoryId", findCategoryId);
-      await fetch(`http://localhost:8000/food/${foodId}`, {
+      await fetch(`${backend_url}/${foodId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +89,7 @@ export const EditFoodInfo = (props) => {
   };
   const deleteFood = async () => {
     try {
-      await fetch(`http://localhost:8000/food/${foodId}`, {
+      await fetch(`${backend_url}/food/${foodId}`, {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",

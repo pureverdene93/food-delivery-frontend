@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { SetFalseDeliveryState } from "../icons/setFalseDeliveryState-icon";
 import { jwtDecode } from "jwt-decode";
+const backend_url = process.env.BACKEND_URL;
 
 export const AddAdress = ({ exit }) => {
   const [addres, setAddres] = useState("");
@@ -28,7 +29,7 @@ export const AddAdress = ({ exit }) => {
   const addAdres = async () => {
     if (!userId) return;
     try {
-      await fetch(`http://localhost:8000/user/${userId}`, {
+      await fetch(`${backend_url}/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
