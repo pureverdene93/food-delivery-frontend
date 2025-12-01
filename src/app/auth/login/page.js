@@ -54,7 +54,8 @@ export default function Home() {
             password: passInput,
           }),
         });
-        const { token } = await res.json();
+        const { token } = await res.js
+        on();
         localStorage.setItem("token", token);
         const decode = jwtDecode(token);
         if (decode.role === "admin") {

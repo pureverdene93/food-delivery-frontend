@@ -60,6 +60,14 @@ export const OrderDetailCart = ({ animationEnd }) => {
     }
   };
 
+  const removeItem = (id) => {
+    const selectAndRemove = foodCardData.filter((data) => {
+      return data.id !== id;
+    });
+    localStorage.setItem("addedCard", JSON.stringify(selectAndRemove));
+    setFoodCardData(selectAndRemove);
+  };
+
   console.log(userData, "my id");
 
   useEffect(() => {
@@ -99,7 +107,10 @@ export const OrderDetailCart = ({ animationEnd }) => {
                 {foodCardData.map((items, index) => {
                   return (
                     <div key={index}>
-                      <FoodCardFromOrderInfo items={items} />
+                      <FoodCardFromOrderInfo
+                        items={items}
+                        removeItem={removeItem}
+                      />
                     </div>
                   );
                 })}

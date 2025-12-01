@@ -4,20 +4,7 @@ import { PlusSignIconBlack } from "../icons/plusSignIconBlack";
 import { MinusCard } from "../icons/minus";
 import { useEffect, useState } from "react";
 
-export const FoodCardFromOrderInfo = ({ items }) => {
-  const [locData, setLocData] = useState([]);
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("addedCard")) || [];
-    setLocData(data);
-  }, []);
-  const removeItem = (id) => {
-    const selectAndRemove = locData.filter((data) => {
-      return data.id !== id;
-    });
-    localStorage.setItem("addedCard", JSON.stringify(selectAndRemove));
-    setLocData(selectAndRemove);
-  };
-
+export const FoodCardFromOrderInfo = ({ items, removeItem }) => {
   return (
     <div className="w-[439px] h-[140px] flex justify-between">
       <img

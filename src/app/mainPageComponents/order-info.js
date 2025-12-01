@@ -1,12 +1,40 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
 import { OrderWhiteIcon } from "../icons/orderWhite-icon";
 import { ExitWhite } from "../icons/exitWhite";
 import { OrderDetailCart } from "./orderDetailCart";
 import { OrderDetailOrder } from "./orderdetailOrder";
+import { jwtDecode } from "jwt-decode";
+
+// const backend_url = process.env.BACKEND_URL;
+// const getOption = { method: "GET" };
+
 export const OrderInfo = ({ exit }) => {
   const [sideBarAnimation, setSideBarAnimation] = useState("animate-slideIn");
   const [orderDetail, setOrderDetail] = useState("Cart");
+  // const [orderByUserId, setOrderByUserId] = useState([]);
+  // const [token, setToken] = useState(null);
+  // const [userId, setUserId] = useState(null);
+
+  // const orderApiLink = `${backend_url}/order/${userId}`;
+
+  // const getData = async () => {
+  //   const orderData = await fetch(orderApiLink, getOption);
+  //   const jsonOrderData = await orderData.json();
+  //   setOrderByUserId(jsonOrderData);
+  // };
+
+  // useEffect(() => {
+  //   const myToken = localStorage.getItem("token");
+  //   setToken(myToken);
+  //   const decodedToken = jwtDecode(myToken);
+  //   setUserId(decodedToken.id);
+  //   getData();
+  //   // console.log(decodedToken, "decoded token from order");
+  // }, []);
+  // // console.log(userId, "it is token");
+
   const close = () => {
     setSideBarAnimation("animate-slideOut");
   };
