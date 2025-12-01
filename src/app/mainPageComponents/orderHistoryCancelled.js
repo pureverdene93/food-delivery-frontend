@@ -3,7 +3,7 @@ import { MapIcon } from "../icons/mapIcon";
 import { OrderedFoodIcon } from "../icons/orderedFoodIcon";
 import { TimerIcon } from "../icons/timerIcon";
 
-export const OrderHistoryDelivered = ({ data }) => {
+export const OrderHistoryCancelled = ({ data }) => {
   //   console.log(data, "user data pending");
 
   return (
@@ -14,7 +14,7 @@ export const OrderHistoryDelivered = ({ data }) => {
           <p className="font-bold text-[16px] text-black">{`(#2016)`}</p>
         </div>
         <div
-          className={`pl-2.5 pr-2.5 min-w-[68px] h-7 border border-green-500 rounded-xl flex justify-center items-center text-[12px] text-black font-semibold`}
+          className={`pl-2.5 pr-2.5 min-w-[68px] h-7 border border-zinc-300 rounded-xl flex justify-center items-center text-[12px] text-black font-semibold`}
         >
           {data.status}
         </div>
