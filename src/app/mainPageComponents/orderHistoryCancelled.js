@@ -4,8 +4,6 @@ import { OrderedFoodIcon } from "../icons/orderedFoodIcon";
 import { TimerIcon } from "../icons/timerIcon";
 
 export const OrderHistoryCancelled = ({ data }) => {
-  //   console.log(data, "user data pending");
-
   return (
     <div className="flex  flex-col gap-2.5">
       <div className="w-[415px] h-7 flex items-center justify-between mt-5">
@@ -40,7 +38,6 @@ export const OrderHistoryCancelled = ({ data }) => {
       <span className="text-[12px] font-normal text-[#71717A] flex items-center h-4 gap-2">
         <TimerIcon /> {data.updatedAt.slice(0, 10).replace(/-g/, "/")}
       </span>
-
       <span className="text-[12px] font-normal text-[#71717A] flex items-center h-4 gap-2">
         <MapIcon /> {data.user.adress}
       </span>
