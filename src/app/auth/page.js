@@ -1,3 +1,3 @@
 export default function Home() {
-  return <p>udfuireg</p>;
+  return <p>HAHA SORRY ZALHUU HURTSIISHUU ENIIG YNZALHAD</p>;
 }

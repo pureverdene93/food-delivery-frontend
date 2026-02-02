@@ -20,12 +20,12 @@ export default function Home() {
 
   const checkEmail = (mail) => {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+\.)+[A-Za-z]{2,}$/.test(
-      mail
+      mail,
     );
   };
   const checkPass = (pass) => {
     return /^(?=\S{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])\S+$/.test(
-      pass
+      pass,
     );
   };
   const checkMailAndPass = () => {
@@ -54,8 +54,8 @@ export default function Home() {
             password: passInput,
           }),
         });
-        const { token } = await res.js
-        on();
+        const { token } = await res.json();
+        // on();
         localStorage.setItem("token", token);
         const decode = jwtDecode(token);
         if (decode.role === "admin") {

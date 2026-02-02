@@ -20,8 +20,6 @@ export const Orders = (props) => {
 
   const orderApiLink = `${backend_url}/order/${userId}`;
 
-  // console.log(orderData, "jdfgiuergliuyegr");
-
   const getFoodOrderByUsedrId = async () => {
     try {
       const orderData = await fetch(orderApiLink, getOption);
@@ -65,14 +63,11 @@ export const Orders = (props) => {
 
   const statusBtn = () => {
     setState(!state);
-    // console.log("changed");
   };
   const changeOrderedFoodState = () => {
     setOrderedFoodState(!orderFoodState);
     setState(false);
   };
-  // console.log("this is state", state);
-  // console.log(orderData, "this is order data");
 
   return (
     <div className="h-14 flex flex-row border-b">
@@ -139,8 +134,8 @@ export const Orders = (props) => {
         font-semibold ml-4 flex items-center justify-evenly ${
           status === "Pending" ? "border-red-500" : ""
         } ${status === "Cancelled" ? "border-zinc-300" : ""} ${
-            status === "Delivered" ? "border-green-500" : ""
-          }`}
+          status === "Delivered" ? "border-green-500" : ""
+        }`}
           onClick={statusBtn}
         >
           {status} <UpAndDown />

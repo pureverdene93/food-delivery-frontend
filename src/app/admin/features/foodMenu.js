@@ -121,18 +121,3 @@ export const FoodMenu = () => {
     </div>
   );
 };
-// const nextBtn = () => {
-//   const err = checkMailAndPass();
-//   if (Object.keys(err).length === 0) {
-//     setErrState({});
-//     router.push(`/admin`);
-//   } else {
-//     setErrState(err);
-//   }
-// };
-
-// router.push(`/admin`);
-// "Addpass11!"
-// "email": "newuser@gmail.com",
-//   "password": "Userpass11!",
-//   "role": "user"

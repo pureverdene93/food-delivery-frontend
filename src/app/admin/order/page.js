@@ -12,5 +12,3 @@ export default function Home() {
     </div>
   );
 }
-// testAddNewUser@gmail.com
-// Test11!!

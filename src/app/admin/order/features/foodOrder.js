@@ -13,8 +13,6 @@ export const FoodOrder = () => {
   const [deliveryState, setDeliveryState] = useState(false);
   const [orderData, setOrderData] = useState([]);
 
-  console.log(backend_url, "this is backendurl");
-
   const getData = async () => {
     const orderDataFetch = await fetch(orderApiLink, getOption);
     const orderJsonData = await orderDataFetch.json();
@@ -26,7 +24,7 @@ export const FoodOrder = () => {
 
   const countDeliveryState = Object.values(state).reduce(
     (prev, cur) => (cur === true ? prev + 1 : prev),
-    0
+    0,
   );
 
   const checkOrder = (index) => () => {
@@ -36,13 +34,16 @@ export const FoodOrder = () => {
       setState({ ...state, [index]: true });
     }
   };
-  console.log(state, countDeliveryState);
 
   const handleDeliveryStateTrue = () => {
     if (countDeliveryState > 0) {
       setDeliveryState(true);
     }
   };
+
+  const checkAllOrders = () => {
+    
+  }
 
   return (
     <div className="flex flex-col gap-6">

@@ -10,16 +10,7 @@ import { OrderWhiteLogo } from "@/app/icons/orderWhite-Logo";
 
 export const AdminNavigation = () => {
   const router = useRouter();
-  const [state, setState] = useState("Food menu");
-
-  const clickOrder = () => {
-    router.push(`/admin/order`);
-    setState("Order");
-  };
-  const clickFoodMenu = () => {
-    router.push(`/admin`);
-    setState("Food menu");
-  };
+  const pathname = usePathname();
 
   return (
     <div className="w-[205px] h-screen bg-white flex flex-col items-center gap-10 pt-9">
@@ -28,10 +19,10 @@ export const AdminNavigation = () => {
         <button
           className={`w-[165px] h-10 flex rounded-[70px] cursor-pointer
           justify-start pl-6 items-center gap-2.5 text-[14px] font-medium
-          ${state === "Food menu" ? "text-white bg-black" : "text-black"}`}
-          onClick={clickFoodMenu}
+          ${pathname === "/admin" ? "text-white bg-black" : "text-black"}`}
+          onClick={() => router.push("/admin")}
         >
-          {state === "Food menu" ? (
+          {pathname === "/admin" ? (
             <FoodMenuLogoWhite />
           ) : (
             <FoodMenuLogoBlack />
@@ -41,10 +32,14 @@ export const AdminNavigation = () => {
         <button
           className={`w-[165px] h-10 flex rounded-[70px] cursor-pointer
             justify-start pl-6 items-center gap-2.5 text-[14px] font-medium 
-          ${state === "Order" ? "text-white bg-black" : "text-black "}`}
-          onClick={clickOrder}
+          ${pathname === "/admin/order" ? "text-white bg-black" : "text-black "}`}
+          onClick={() => router.push("/admin/order")}
         >
-          {state === "Order" ? <OrderWhiteLogo /> : <OrderBlackLogo />}
+          {pathname === "/admin/order" ? (
+            <OrderWhiteLogo />
+          ) : (
+            <OrderBlackLogo />
+          )}
           Order
         </button>
       </div>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { FoodsByCategorySection } from "./mainPageFeatures/foods-byCategory";
+import { useRouter } from "next/navigation";
 import { Footer } from "./mainPageFeatures/footer";
 import { Header } from "./mainPageFeatures/header";
 
@@ -10,6 +11,7 @@ const optionGet = { method: "GET" };
 const categoryApiLinkGet = `${backend_url}/category`;
 
 export default function Home() {
+  const router = useRouter();
   const [categoryData, setCategoryData] = useState([]);
   const getAndFetchData = async () => {
     const categoryData = await fetch(categoryApiLinkGet, optionGet);
@@ -18,11 +20,13 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
     getAndFetchData();
-    // if (typeof window !== "undefined") {
-    //   const token = localStorage.getItem("token");
-    //   if (!token) router.push("/auth/login");
-    // }
   }, []);
 
   return (
