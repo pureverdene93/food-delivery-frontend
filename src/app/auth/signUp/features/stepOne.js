@@ -36,25 +36,25 @@ export const StepOne = ({ step }) => {
   };
 
   return (
-    <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
-      <div className="w-[416px] min-h-72 flex flex-col justify-center gap-6">
+    <div className="bg-white w-full min-h-screen flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-12 p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md flex flex-col justify-center gap-4 sm:gap-6 order-2 lg:order-1">
         <PreStepBtn />
         <div className="flex flex-col">
-          <p className="text-[24px] text-black font-semibold">
+          <p className="text-xl sm:text-2xl text-black font-semibold">
             Create your account
           </p>
-          <p className="font-normal text-[16px] text-[#71717A]">
+          <p className="font-normal text-sm sm:text-base text-[#71717A]">
             Sign up to explore your favorite dishes.
           </p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <input
-            className="w-[416px] h-9 rounded-xl border border-zinc-300 pl-3 text-[14px] font-normal text-black"
+            className="w-full h-9 sm:h-10 rounded-xl border border-zinc-300 pl-3 text-sm font-normal text-black focus:outline-none"
             placeholder="Enter your email adress"
             onChange={(e) => setEmail(e.target.value)}
           />
           {errState.email && (
-            <p className="text-red-500 text-[14px] font-normal">
+            <p className="text-red-500 text-xs sm:text-sm font-normal">
               {errState.email}
             </p>
           )}
@@ -66,7 +66,7 @@ export const StepOne = ({ step }) => {
           onClick={() => router.push(`/auth/login`)}
         />
       </div>
-      <img src="/loginImage.png" className="w-[856px] h-[904px] rounded-xl" />
+      <img src="/loginImage.png" className="hidden lg:block w-full max-w-xl xl:max-w-2xl h-64 sm:h-80 lg:h-[600px] xl:h-[700px] rounded-xl object-cover order-1 lg:order-2" />
     </div>
   );
 };

@@ -72,49 +72,49 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">
-      <div className="w-[416px] min-h-[376px] flex flex-col justify-center gap-6">
+    <div className="bg-white w-full min-h-screen flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-12 p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md flex flex-col justify-center gap-4 sm:gap-6 order-2 lg:order-1">
         <PreStepBtn />
         <Titles
           big={"Log in "}
           small={"Log in to enjoy your favorite dishes."}
         />
-        <div className="flex flex-col gap-4 items-baseline">
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4 items-baseline w-full">
+          <div className="flex flex-col gap-2 w-full">
             <input
-              className={`w-[416px] h-9 rounded-xl border border-zinc-300 pl-2 text-[14px] font-normal text-black focus:outline-none`}
+              className="w-full h-9 sm:h-10 rounded-xl border border-zinc-300 pl-3 text-sm font-normal text-black focus:outline-none"
               placeholder="Enter your email adress"
               onChange={(e) => setEmailInput(e.target.value)}
             />
             {errState.email && (
-              <p className="text-red-500 text-[14px] font-normal">
+              <p className="text-red-500 text-xs sm:text-sm font-normal">
                 {errState.email}
               </p>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="w-[416px] rounded-xl h-9 border border-zinc-300 flex">
+          <div className="flex flex-col gap-2 w-full">
+            <div className="w-full rounded-xl h-9 sm:h-10 border border-zinc-300 flex items-center pr-3">
               <input
-                className="w-[390px] h-9 rounded-xl pl-2 text-[14px] font-normal text-black focus:outline-none"
+                className="flex-1 h-full rounded-xl pl-3 text-sm font-normal text-black focus:outline-none"
                 placeholder="Password"
                 type={passState === true ? "text" : "password"}
                 onChange={(e) => setPassInput(e.target.value)}
               />
               <button
-                className="cursor-pointer"
+                className="cursor-pointer text-gray-500"
                 onClick={() => setPassState(!passState)}
               >
                 <FaEye />
               </button>
             </div>
             {errState.pass && (
-              <p className="text-red-500 text-[14px] font-normal">
+              <p className="text-red-500 text-xs sm:text-sm font-normal">
                 Incorrect password. Please try again.
               </p>
             )}
           </div>
           <button
-            className={`text-[14px] font-normal text-black cursor-pointer hover:underline`}
+            className="text-sm font-normal text-black cursor-pointer hover:underline"
             onClick={() => router.push(`/auth/reset-password`)}
           >
             Forgot password ?
@@ -122,14 +122,14 @@ export default function Home() {
         </div>
         <LetsGo nextStep={nextButton} title={"Let's Go"} />
         <AlreadyAccount
-          title={"Don’t have an account?"}
+          title={"Don't have an account?"}
           link={"Sign up "}
           onClick={() => router.push(`/auth/signUp`)}
         />
       </div>
       <img
         src="/loginImage.png"
-        className="object-cover w-[856px] h-[904px] rounded-xl"
+        className="hidden lg:block object-cover w-full max-w-xl xl:max-w-2xl h-64 sm:h-80 lg:h-[600px] xl:h-[700px] rounded-xl order-1 lg:order-2"
       />
     </div>
   );

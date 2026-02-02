@@ -45,34 +45,34 @@ export const AddAdress = ({ exit, onSave, currentAddress = "" }) => {
   };
 
   return (
-    <div className="fixed z-50 flex justify-center items-center w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.5)]">
-      <div className="w-[502px] h-72 bg-white rounded-xl flex flex-col items-center justify-around">
-        <div className="flex w-[454px] items-center justify-between">
-          <p className="text-black font-semibold text-[24px]">
+    <div className="fixed z-50 flex justify-center items-center w-full h-full top-0 left-0 bg-black/50 p-4">
+      <div className="w-full max-w-md sm:max-w-lg bg-white rounded-xl flex flex-col items-center justify-around p-4 sm:p-6 gap-4 sm:gap-6">
+        <div className="flex w-full items-center justify-between gap-4">
+          <p className="text-black font-semibold text-lg sm:text-xl lg:text-2xl">
             Please write your delivery address!
           </p>
           <button
-            className="flex w-10 h-10 bg-zinc-200 items-center justify-center rounded-full cursor-pointer"
+            className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-zinc-200 items-center justify-center rounded-full cursor-pointer flex"
             onClick={exit}
           >
             <SetFalseDeliveryState />
           </button>
         </div>
         <input
-          className="w-[454px] h-20 border border-zinc-300 rounded-xl focus:outline-none pl-3 text-[16px] font-normal text-black"
+          className="w-full h-16 sm:h-20 border border-zinc-300 rounded-xl focus:outline-none pl-3 text-sm sm:text-base font-normal text-black"
           placeholder="Please share your complete address"
           value={addres}
           onChange={(e) => setAddres(e.target.value)}
         />
-        <div className="w-[454px] h-16 flex justify-end items-end gap-4">
+        <div className="w-full flex justify-end items-center gap-3 sm:gap-4">
           <button
-            className="w-[79px] h-10 bg-white text-[14px] font-medium text-black rounded-xl flex justify-center items-center cursor-pointer border border-zinc-300"
+            className="px-4 sm:px-6 h-9 sm:h-10 bg-white text-sm font-medium text-black rounded-xl flex justify-center items-center cursor-pointer border border-zinc-300"
             onClick={exit}
           >
             Cancel
           </button>
           <button
-            className="w-[115px] text-white text-[14px] font-medium h-10 bg-black rounded-xl flex justify-center items-center cursor-pointer border border-zinc-300"
+            className="px-4 sm:px-6 text-white text-sm font-medium h-9 sm:h-10 bg-black rounded-xl flex justify-center items-center cursor-pointer"
             onClick={addAdres}
           >
             Deliver Here

@@ -55,53 +55,53 @@ export const AddFoodCard = ({ exit, data }) => {
   };
 
   return (
-    <div className="fixed z-50 flex justify-center items-center w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.5)]">
-      <div className="w-[826px] h-[412px] bg-white rounded-xl flex flex-row p-6 justify-between">
+    <div className="fixed z-50 flex justify-center items-center w-full h-full top-0 left-0 bg-black/50 p-4">
+      <div className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl bg-white rounded-xl flex flex-col md:flex-row p-4 sm:p-6 gap-4 sm:gap-6">
         <img
-          className="object-cover w-[377px] h-[364px] rounded-xl"
+          className="object-cover w-full md:w-1/2 h-48 sm:h-64 md:h-80 lg:h-96 rounded-xl"
           src={data.image}
         />
-        <div className="w-[377px] h-[364px] flex justify-between flex-col">
+        <div className="w-full md:w-1/2 flex justify-between flex-col gap-4">
           <div>
-            <div className="w-[377px] flex justify-end">
+            <div className="w-full flex justify-end">
               <button
-                className="w-9 h-9 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
+                className="w-8 h-8 sm:w-9 sm:h-9 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
                 onClick={exit}
               >
                 <SetFalseDeliveryState />
               </button>
             </div>
-            <div>
-              <p className="text-[30px] font-semibold text-red-500">
+            <div className="mt-2">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-red-500">
                 {data.foodName}
               </p>
-              <p className="text-[16px] text-black font-normal">
+              <p className="text-sm sm:text-base text-black font-normal mt-2">
                 {data.ingredients}
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-6">
-            <div className="w-[377px] h-14 flex justify-between">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="w-full flex justify-between items-center">
               <div>
-                <p className="text-[16px] font-normal text-black">
+                <p className="text-sm sm:text-base font-normal text-black">
                   Total price
                 </p>
-                <p className="text-[24px] text-black font-semibold">
+                <p className="text-xl sm:text-2xl text-black font-semibold">
                   ${data.price * countFood}
                 </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <button
-                  className="w-11 h-11 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
+                  className="w-9 h-9 sm:w-11 sm:h-11 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
                   onClick={countFoodMinus}
                 >
-                  <MinusIcon />
+                  <MinusIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
-                <p className="text-[18px] text-black font-semibold">
+                <p className="text-base sm:text-lg text-black font-semibold min-w-[24px] text-center">
                   {countFood}
                 </p>
                 <button
-                  className="w-11 h-11 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
+                  className="w-9 h-9 sm:w-11 sm:h-11 border border-zinc-200 rounded-full cursor-pointer flex items-center justify-center"
                   onClick={() => setCountFood(countFood + 1)}
                 >
                   <PlusSignIcon />
@@ -109,10 +109,10 @@ export const AddFoodCard = ({ exit, data }) => {
               </div>
             </div>
             <button
-              className="text-white text-[14px] font-medium w-[377px] h-11 bg-black rounded-xl flex justify-center items-center cursor-pointer"
+              className="text-white text-sm font-medium w-full h-10 sm:h-11 bg-black rounded-xl flex justify-center items-center cursor-pointer"
               onClick={checkOrder}
             >
-              Add to card
+              Add to cart
             </button>
           </div>
         </div>

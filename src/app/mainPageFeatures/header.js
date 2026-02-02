@@ -50,32 +50,43 @@ export const Header = () => {
   }, []);
 
   return (
-    <div className="bg-zinc-900 h-[68px] w-full flex items-center justify-center">
-      <div className="flex w-[1440px] justify-between pl-[88px] pr-[88px]">
-        <div className="w-[165px] h-11 flex justify-start items-center gap-2">
+    <div className="bg-zinc-900 min-h-[60px] sm:min-h-[68px] w-full flex items-center justify-center px-4 sm:px-6 lg:px-0">
+      <div className="flex w-full max-w-7xl justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
           <LogoIcon />
-          <div>
-            <p className="text-[18px] font-semibold text-white">
+          <div className="hidden sm:block">
+            <p className="text-base sm:text-lg font-semibold text-white">
               Nom<span className="text-red-500">Nom</span>
             </p>
-            <p className="text-[12px] text-white">Swift delivery</p>
+            <p className="text-xs text-white">Swift delivery</p>
           </div>
         </div>
-        <div className="flex flex-row gap-3">
+
+        {/* Right Section */}
+        <div className="flex flex-row gap-2 sm:gap-3 items-center">
           {token && (
             <>
-              <div className="bg-white rounded-2xl min-w-[251px] h-9 flex items-center gap-1 justify-center px-3">
-                <p className="text-red-500 font-normal text-[12px] flex items-center gap-1 whitespace-nowrap">
+              {/* Address - hidden on mobile */}
+              <div className="hidden md:flex bg-white rounded-2xl h-9 items-center gap-1 justify-center px-3">
+                <p className="text-red-500 font-normal text-xs flex items-center gap-1 whitespace-nowrap">
                   <LocationIcon /> Delivery address:
                 </p>
                 <button
-                  className="text-[12px] text-[#71717A] font-normal flex items-center cursor-pointer max-w-[150px] truncate"
+                  className="text-xs text-[#71717A] font-normal flex items-center cursor-pointer max-w-[150px] truncate"
                   onClick={() => setLocationState(true)}
                 >
                   {userAddress || "Add Location"}{" "}
                   {!userAddress && <AddLocIcon />}
                 </button>
               </div>
+              {/* Mobile address button */}
+              <button
+                className="md:hidden w-9 h-9 bg-white cursor-pointer flex justify-center items-center rounded-full"
+                onClick={() => setLocationState(true)}
+              >
+                <LocationIcon />
+              </button>
               <button
                 className="w-9 h-9 bg-white cursor-pointer flex justify-center items-center rounded-full"
                 onClick={() => setOrderState(true)}
@@ -93,13 +104,13 @@ export const Header = () => {
           {!token && (
             <>
               <button
-                className="cursor-pointer w-[75px] h-9 bg-white text-black flex justify-center items-center font-medium text-[14px] rounded-3xl"
+                className="cursor-pointer px-3 sm:px-4 h-8 sm:h-9 bg-white text-black flex justify-center items-center font-medium text-xs sm:text-sm rounded-3xl"
                 onClick={() => router.push(`/auth/signUp`)}
               >
                 Sign up
               </button>
               <button
-                className="cursor-pointer w-[65px] h-9 bg-red-500 text-white flex justify-center items-center font-medium text-[14px] rounded-3xl"
+                className="cursor-pointer px-3 sm:px-4 h-8 sm:h-9 bg-red-500 text-white flex justify-center items-center font-medium text-xs sm:text-sm rounded-3xl"
                 onClick={() => router.push(`/auth/login`)}
               >
                 Log in

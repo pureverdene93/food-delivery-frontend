@@ -51,16 +51,16 @@ export const FoodMenu = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-7xl">
       <div className="flex justify-end">
         <img
           src="/me.jpg"
-          className="object-cover w-9 h-9 rounded-full cursor-pointer"
+          className="object-cover w-8 h-8 sm:w-9 sm:h-9 rounded-full cursor-pointer"
         />
       </div>
-      <div className="w-[1171px] min-h-44 bg-white rounded-[20px] p-6 flex flex-col gap-4">
-        <p className="text-[20px] text-black font-semibold">Dishes category</p>
-        <div className="flex flex-wrap gap-3">
+      <div className="w-full bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col gap-3 sm:gap-4">
+        <p className="text-base sm:text-lg lg:text-xl text-black font-semibold">Dishes category</p>
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           <CategoryButton
             categoryName={"All dishes"}
             categoryId={"1"}
@@ -89,7 +89,7 @@ export const FoodMenu = () => {
           })}
 
           <button
-            className="flex justify-center items-center bg-red-500 rounded-full cursor-pointer w-9 h-9"
+            className="flex justify-center items-center bg-red-500 rounded-full cursor-pointer w-8 h-8 sm:w-9 sm:h-9"
             onClick={() => setCategoryState(true)}
           >
             <AddFoodIcon />
@@ -107,7 +107,7 @@ export const FoodMenu = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-6 overflow-y-scroll">
+      <div className="flex flex-col gap-4 sm:gap-6 overflow-y-auto max-h-[60vh] sm:max-h-[70vh]">
         {categoryData.map((category) => {
           return (
             <div key={category._id}>

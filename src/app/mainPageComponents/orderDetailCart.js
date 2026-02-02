@@ -161,17 +161,17 @@ export const OrderDetailCart = ({ animationEnd }) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="w-[471px] h-[532px] bg-white rounded-xl flex items-center justify-between flex-col p-4">
+    <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-lg mx-auto px-3 sm:px-0">
+      <div className="w-full min-h-[400px] sm:min-h-[532px] bg-white rounded-xl flex items-center justify-between flex-col p-3 sm:p-4">
         {foodCardData.length === 0 ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 w-full">
             <h4 className="font-semibold text-black">My cart</h4>
-            <div className="w-[439px] h-[182px] bg-[#F4F4F5] rounded-xl flex flex-col items-center justify-center gap-1">
+            <div className="w-full h-auto min-h-[150px] sm:min-h-[182px] bg-[#F4F4F5] rounded-xl flex flex-col items-center justify-center gap-1 p-4">
               <BiggerIcon />
-              <p className="text-[16px] text-black font-bold">
+              <p className="text-sm sm:text-base text-black font-bold">
                 Your cart is empthy
               </p>
-              <p className="text-[#71717A] text-[12px] font-normal w-[343px] text-center">
+              <p className="text-[#71717A] text-xs sm:text-sm font-normal max-w-[343px] text-center">
                 Hungry? 🍔 Add some delicious dishes to your cart and satisfy
                 your cravings!
               </p>
@@ -179,11 +179,11 @@ export const OrderDetailCart = ({ animationEnd }) => {
           </div>
         ) : (
           <>
-            <div className="flex flex-col gap-5">
-              <p className="text-[20px] font-semibold text-[#71717A]">
+            <div className="flex flex-col gap-5 w-full">
+              <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
                 My cart
               </p>
-              <div className="flex flex-col gap-5 divide-y h-[300px] overflow-y-scroll">
+              <div className="flex flex-col gap-5 divide-y max-h-[250px] sm:max-h-[300px] overflow-y-auto w-full">
                 {foodCardData.map((items, index) => {
                   return (
                     <div key={index}>
@@ -196,12 +196,12 @@ export const OrderDetailCart = ({ animationEnd }) => {
                 })}
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-[20px] font-semibold text-[#71717A]">
+            <div className="flex flex-col gap-2 w-full mt-4">
+              <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
                 Delivery location
               </p>
               <input
-                className="w-[439px] h-20 rounded-xl border border-zinc-300 text-[14px] text-black font-normal pl-3 pb-2"
+                className="w-full h-16 sm:h-20 rounded-xl border border-zinc-300 text-sm text-black font-normal pl-3"
                 placeholder="Please share your complete address"
                 type="text"
                 value={deliveryLocation}
@@ -213,59 +213,69 @@ export const OrderDetailCart = ({ animationEnd }) => {
         )}
       </div>
 
-      <div className="w-[471px] h-[276px] bg-white rounded-xl p-4 flex flex-col justify-between">
+      <div className="w-full min-h-[240px] sm:min-h-[276px] bg-white rounded-xl p-3 sm:p-4 flex flex-col justify-between gap-3">
         {foodCardData.length === 0 ? (
           <>
-            <p className="text-[20px] font-semibold text-[#71717A]">
+            <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
               Payment info
             </p>
-            <div className="w-[439px] h-[70px] flex flex-col gap-2 border-b">
+            <div className="w-full flex flex-col gap-2 border-b pb-3">
               <div className="flex justify-between">
-                <p className="font-normal text-[16px] text-[#71717A]">Items</p>
-                <p className="text-[16px] text-black font-bold">-</p>
+                <p className="font-normal text-sm sm:text-base text-[#71717A]">
+                  Items
+                </p>
+                <p className="text-sm sm:text-base text-black font-bold">-</p>
               </div>
               <div className="flex justify-between">
-                <p className="font-normal text-[16px] text-[#71717A]">
+                <p className="font-normal text-sm sm:text-base text-[#71717A]">
                   Shipping
                 </p>
-                <p className="text-[16px] text-black font-bold">-</p>
+                <p className="text-sm sm:text-base text-black font-bold">-</p>
               </div>
             </div>
             <div className="flex justify-between">
-              <p className="font-normal text-[16px] text-[#71717A]">Total</p>
-              <p className="text-[16px] text-black font-bold">-</p>
+              <p className="font-normal text-sm sm:text-base text-[#71717A]">
+                Total
+              </p>
+              <p className="text-sm sm:text-base text-black font-bold">-</p>
             </div>
-            <button className="opacity-35 w-[439px] h-11 rounded-3xl bg-red-500 font-medium text-white text-[14px] flex justify-center items-center cursor-pointer">
+            <button className="opacity-35 w-full h-10 sm:h-11 rounded-3xl bg-red-500 font-medium text-white text-sm flex justify-center items-center cursor-pointer">
               Checkout
             </button>
           </>
         ) : (
           <>
-            <p className="text-[20px] font-semibold text-[#71717A]">
+            <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
               Payment info
             </p>
-            <div className="w-[439px] h-[70px] flex flex-col gap-2 border-b">
+            <div className="w-full flex flex-col gap-2 border-b pb-3">
               <div className="flex justify-between">
-                <p className="font-normal text-[16px] text-[#71717A]">Items</p>
-                <p className="text-[16px] text-black font-bold">
+                <p className="font-normal text-sm sm:text-base text-[#71717A]">
+                  Items
+                </p>
+                <p className="text-sm sm:text-base text-black font-bold">
                   ${totalPrice}
                 </p>
               </div>
               <div className="flex justify-between">
-                <p className="font-normal text-[16px] text-[#71717A]">
+                <p className="font-normal text-sm sm:text-base text-[#71717A]">
                   Shipping
                 </p>
-                <p className="text-[16px] text-black font-bold">0.99$</p>
+                <p className="text-sm sm:text-base text-black font-bold">
+                  0.99$
+                </p>
               </div>
             </div>
             <div className="flex justify-between">
-              <p className="font-normal text-[16px] text-[#71717A]">Total</p>
-              <p className="text-[16px] text-black font-bold">
+              <p className="font-normal text-sm sm:text-base text-[#71717A]">
+                Total
+              </p>
+              <p className="text-sm sm:text-base text-black font-bold">
                 ${totalPrice + 0.99}
               </p>
             </div>
             <button
-              className="w-[439px] h-11 rounded-3xl bg-red-500 font-medium text-white text-[14px] flex justify-center items-center cursor-pointer"
+              className="w-full h-10 sm:h-11 rounded-3xl bg-red-500 font-medium text-white text-sm flex justify-center items-center cursor-pointer"
               onClick={createOrder}
             >
               Checkout
@@ -273,22 +283,23 @@ export const OrderDetailCart = ({ animationEnd }) => {
           </>
         )}
       </div>
-      <div className="w-[471px] bg-white rounded-xl p-4 flex flex-col gap-3">
+
+      <div className="w-full bg-white rounded-xl p-3 sm:p-4 flex flex-col gap-3">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => setShowHistory(!showHistory)}
         >
-          <p className="text-[20px] font-semibold text-[#71717A]">
+          <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
             Order History
           </p>
-          <span className="text-[14px] text-gray-500">
+          <span className="text-sm text-gray-500">
             {showHistory ? "▲" : "▼"}
           </span>
         </div>
         {showHistory && (
-          <div className="flex flex-col gap-3 max-h-[300px] overflow-y-auto">
+          <div className="flex flex-col gap-3 max-h-[250px] sm:max-h-[300px] overflow-y-auto">
             {orderHistory.length === 0 ? (
-              <p className="text-[14px] text-gray-400 text-center py-4">
+              <p className="text-sm text-gray-400 text-center py-4">
                 No orders yet
               </p>
             ) : (
@@ -298,11 +309,11 @@ export const OrderDetailCart = ({ animationEnd }) => {
                   className="border border-zinc-200 rounded-lg p-3 flex flex-col gap-2"
                 >
                   <div className="flex justify-between items-center">
-                    <p className="text-[14px] font-medium text-black">
+                    <p className="text-sm font-medium text-black">
                       ${order.totalPrice}
                     </p>
                     <span
-                      className={`text-[12px] font-semibold px-3 py-1 rounded-full border ${getStatusColor(
+                      className={`text-xs font-semibold px-2 sm:px-3 py-1 rounded-full border ${getStatusColor(
                         order.status,
                       )}`}
                     >
@@ -310,12 +321,12 @@ export const OrderDetailCart = ({ animationEnd }) => {
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-[12px] text-gray-500">
+                    <p className="text-xs text-gray-500">
                       {order.foodOrderItem?.length || 0} items
                     </p>
                     {order.status === "Pending" && (
                       <button
-                        className="text-[12px] text-red-500 font-medium cursor-pointer hover:underline"
+                        className="text-xs text-red-500 font-medium cursor-pointer hover:underline"
                         onClick={() =>
                           updateOrderStatus(order._id, "Cancelled")
                         }
@@ -333,14 +344,14 @@ export const OrderDetailCart = ({ animationEnd }) => {
 
       {orderSucces &&
         createPortal(
-          <div className="fixed inset-0 z-50 w-full h-full top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)]">
-            <div className="bg-white w-[664px] h-[439px] rounded-xl flex flex-col items-center justify-evenly">
-              <h3 className="text-black font-semibold text-[24px]">
+          <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50 p-4">
+            <div className="bg-white w-full max-w-xs sm:max-w-md md:max-w-lg min-h-[300px] sm:min-h-[350px] rounded-xl flex flex-col items-center justify-evenly p-4 sm:p-6">
+              <h3 className="text-black font-semibold text-lg sm:text-xl md:text-2xl text-center">
                 Your order has been successfully placed !
               </h3>
               <OrderSucces />
               <button
-                className="bg-[#F4F4F5] w-[188px] h-11 justify-center flex items-center rounded-xl cursor-pointer text-black text-[14px] font-medium"
+                className="bg-[#F4F4F5] w-full max-w-[188px] h-10 sm:h-11 justify-center flex items-center rounded-xl cursor-pointer text-black text-sm font-medium"
                 onClick={backToHome}
               >
                 Back to home

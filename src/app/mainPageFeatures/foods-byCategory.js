@@ -25,14 +25,14 @@ export const FoodsByCategorySection = ({ data }) => {
   });
 
   return (
-    <div className="flex flex-col gap-[54px] w-[1264px]">
-      <p className="text-[30px] font-semibold text-white">
+    <div className="flex flex-col gap-6 sm:gap-10 lg:gap-14 w-full max-w-7xl mx-auto">
+      <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white px-2">
         {data.categoryName}
       </p>
-      <div className="flex flex-wrap w-[1264px] gap-9">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-9 justify-items-center">
         {filteredFoodData.map((food) => {
           return (
-            <div key={food._id}>
+            <div key={food._id} className="w-full max-w-sm">
               <FoodCard data={food} foodId={food._id} />
             </div>
           );
