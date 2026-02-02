@@ -12,8 +12,11 @@ const backend_url = process.env.BACKEND_URL;
 export const OrderDetailCart = ({ animationEnd }) => {
   const [foodCardData, setFoodCardData] = useState([]);
   const [deliveryLocation, setDeliveryLocation] = useState("");
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState("");
+  const [token, setToken] = useState(null);
   const [orderSucces, setOrderSucces] = useState(false);
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
 
   const getDataSafe = () => {
     try {
@@ -25,13 +28,83 @@ export const OrderDetailCart = ({ animationEnd }) => {
   };
   const totalPrice = foodCardData.reduce(
     (sum, items) => sum + (items.totalPrice || 0),
-    0
+    0,
   );
 
   const backToHome = () => {
     setOrderSucces(false);
   };
-  console.log("this is food card data", foodCardData);
+
+  const fetchOrderHistory = async (userId) => {
+    try {
+      const res = await fetch(`${backend_url}/order/${userId}`);
+      const data = await res.json();
+      setOrderHistory(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setOrderHistory([]);
+    }
+  };
+
+  const updateOrderStatus = async (orderId, newStatus) => {
+    const token = localStorage.getItem("token");
+    try {
+      await fetch(`${backend_url}/order/${orderId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      setOrderHistory((prev) =>
+        prev.map((order) =>
+          order._id === orderId ? { ...order, status: newStatus } : order,
+        ),
+      );
+    } catch (err) {}
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Delivered":
+        return "text-green-500 border-green-500";
+      case "Pending":
+        return "text-yellow-500 border-yellow-500";
+      case "Cancelled":
+        return "text-gray-400 border-gray-400";
+      default:
+        return "text-gray-500 border-gray-500";
+    }
+  };
+
+  const fetchUserAddress = async (userId) => {
+    try {
+      const res = await fetch(`${backend_url}/user/${userId}`);
+      const data = await res.json();
+      if (data?.adress) {
+        setDeliveryLocation(data.adress);
+      }
+    } catch (err) {}
+  };
+
+  const saveAddress = async (newAddress) => {
+    if (!userData || !newAddress) return;
+    try {
+      await fetch(`${backend_url}/user/${userData}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ adress: newAddress }),
+      });
+      window.dispatchEvent(
+        new CustomEvent("addressUpdated", { detail: newAddress }),
+      );
+    } catch (err) {}
+  };
 
   const createOrder = async () => {
     try {
@@ -55,9 +128,8 @@ export const OrderDetailCart = ({ animationEnd }) => {
       localStorage.removeItem("addedCard");
       setFoodCardData([]);
       setOrderSucces(true);
-    } catch (err) {
-      console.log(err);
-    }
+      fetchOrderHistory(userData);
+    } catch (err) {}
   };
 
   const removeItem = (id) => {
@@ -68,17 +140,25 @@ export const OrderDetailCart = ({ animationEnd }) => {
     setFoodCardData(selectAndRemove);
   };
 
-  console.log(userData, "my id");
-
   useEffect(() => {
     setFoodCardData(getDataSafe());
-    const user = localStorage.getItem("token");
-    const decodedToken = jwtDecode(user);
-    console.log(decodedToken, "token");
-    const stringifyId = decodedToken.id;
-    setUserData(stringifyId);
+    const userToken = localStorage.getItem("token");
+    if (userToken) {
+      setToken(userToken);
+      const decodedToken = jwtDecode(userToken);
+      const stringifyId = decodedToken.id;
+      setUserData(stringifyId);
+      fetchOrderHistory(stringifyId);
+      fetchUserAddress(stringifyId);
+    }
+
+    const handleAddressUpdate = (e) => {
+      setDeliveryLocation(e.detail);
+    };
+    window.addEventListener("addressUpdated", handleAddressUpdate);
+    return () =>
+      window.removeEventListener("addressUpdated", handleAddressUpdate);
   }, []);
-  console.log(deliveryLocation);
 
   return (
     <div className="flex flex-col gap-6">
@@ -124,7 +204,9 @@ export const OrderDetailCart = ({ animationEnd }) => {
                 className="w-[439px] h-20 rounded-xl border border-zinc-300 text-[14px] text-black font-normal pl-3 pb-2"
                 placeholder="Please share your complete address"
                 type="text"
+                value={deliveryLocation}
                 onChange={(e) => setDeliveryLocation(e.target.value)}
+                onBlur={(e) => saveAddress(e.target.value)}
               />
             </div>
           </>
@@ -191,6 +273,64 @@ export const OrderDetailCart = ({ animationEnd }) => {
           </>
         )}
       </div>
+      <div className="w-[471px] bg-white rounded-xl p-4 flex flex-col gap-3">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setShowHistory(!showHistory)}
+        >
+          <p className="text-[20px] font-semibold text-[#71717A]">
+            Order History
+          </p>
+          <span className="text-[14px] text-gray-500">
+            {showHistory ? "▲" : "▼"}
+          </span>
+        </div>
+        {showHistory && (
+          <div className="flex flex-col gap-3 max-h-[300px] overflow-y-auto">
+            {orderHistory.length === 0 ? (
+              <p className="text-[14px] text-gray-400 text-center py-4">
+                No orders yet
+              </p>
+            ) : (
+              orderHistory.map((order) => (
+                <div
+                  key={order._id}
+                  className="border border-zinc-200 rounded-lg p-3 flex flex-col gap-2"
+                >
+                  <div className="flex justify-between items-center">
+                    <p className="text-[14px] font-medium text-black">
+                      ${order.totalPrice}
+                    </p>
+                    <span
+                      className={`text-[12px] font-semibold px-3 py-1 rounded-full border ${getStatusColor(
+                        order.status,
+                      )}`}
+                    >
+                      {order.status}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-[12px] text-gray-500">
+                      {order.foodOrderItem?.length || 0} items
+                    </p>
+                    {order.status === "Pending" && (
+                      <button
+                        className="text-[12px] text-red-500 font-medium cursor-pointer hover:underline"
+                        onClick={() =>
+                          updateOrderStatus(order._id, "Cancelled")
+                        }
+                      >
+                        Cancel Order
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
+
       {orderSucces &&
         createPortal(
           <div className="fixed inset-0 z-50 w-full h-full top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)]">
@@ -207,7 +347,7 @@ export const OrderDetailCart = ({ animationEnd }) => {
               </button>
             </div>
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );

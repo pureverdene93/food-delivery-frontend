@@ -16,9 +16,6 @@ export const EditAndAddNewFood = (props) => {
   const [foodIngredients, setFoodIngredients] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
-  // console.log("food name", foodName);
-  // console.log("food price", foodPrice);
-  // console.log("food ingredients", foodIngredients);
 
   const uploadToCloudinary = async (file) => {
     setUploading(true);
@@ -66,12 +63,8 @@ export const EditAndAddNewFood = (props) => {
       });
       await getFoodData();
       exit();
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
-
-  console.log(getFoodData, "this is getFoodData");
 
   return (
     <div

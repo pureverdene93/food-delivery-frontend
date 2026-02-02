@@ -22,7 +22,6 @@ export const UserSection = () => {
       router.push(`/auth/login`);
     }
   };
-  console.log(decodedData, "diufhgiuehgpiuerh");
 
   return (
     <div className="absolute min-w-[188px] h-[104px] bg-white rounded-xl flex justify-center items-center flex-col gap-2 mt-10 ml-[200px]">

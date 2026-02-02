@@ -1,7 +1,5 @@
 "use client";
 export const OrderedFood = ({ orderData }) => {
-  // console.log(orderData, "uyrgfuyergfugefuhvefvr");
-
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex items-center gap-2.5">

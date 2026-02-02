@@ -17,7 +17,6 @@ export const StepTwo = () => {
   const [confirmPass, setConfirmPass] = useState("");
   const [errState, setErrState] = useState({});
   const [showPassState, setShowPassState] = useState(false);
-  console.log("show pass state", showPassState);
 
   const showPass = () => {
     setShowPassState(!showPassState);
@@ -52,9 +51,7 @@ export const StepTwo = () => {
             password: pass,
           }),
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
       localStorage.clear();
       router.push(`/auth/login`);
       setErrState({});

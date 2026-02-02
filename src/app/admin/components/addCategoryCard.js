@@ -10,12 +10,9 @@ export const AddCategoryCard = (props) => {
 
   const [saveCategory, setSaveCategory] = useState("");
   const [token, setToken] = useState(null);
-  // console.log(saveCategory);
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");
-    // console.log(adminToken);
-
     if (adminToken) {
       setToken(adminToken);
     }
@@ -36,12 +33,8 @@ export const AddCategoryCard = (props) => {
       });
       await getDataTest();
       exit();
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
-  //   console.log(addCategory, "this is new array");
-  console.log(categoryData, "this is category data");
 
   return (
     <div

@@ -9,7 +9,6 @@ import { Titles } from "../authComponents/titles";
 export default function Home() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  console.log(email);
 
   return (
     <div className="bg-white w-screen h-screen flex flex-row justify-center items-center gap-12">

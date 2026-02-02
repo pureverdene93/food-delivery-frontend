@@ -64,9 +64,7 @@ export default function Home() {
         if (decode.role === "user") {
           router.push(`/`);
         }
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
       setErrState({});
     } else {
       setErrState(err);

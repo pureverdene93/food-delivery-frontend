@@ -5,44 +5,43 @@ import { SetFalseDeliveryState } from "../icons/setFalseDeliveryState-icon";
 import { jwtDecode } from "jwt-decode";
 const backend_url = process.env.BACKEND_URL;
 
-export const AddAdress = ({ exit }) => {
-  const [addres, setAddres] = useState("");
+export const AddAdress = ({ exit, onSave, currentAddress = "" }) => {
+  const [addres, setAddres] = useState(currentAddress);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  console.log(userId);
+  useEffect(() => {
+    setAddres(currentAddress);
+  }, [currentAddress]);
 
   useEffect(() => {
-    addAdres();
     const getToken = localStorage.getItem("token");
     if (getToken) {
       setToken(getToken);
-    }
-    try {
-      const decoded = jwtDecode(getToken);
-      setUserId(decoded.id);
-    } catch (err) {
-      console.log(err);
+      try {
+        const decoded = jwtDecode(getToken);
+        setUserId(decoded.id);
+      } catch (err) {}
     }
   }, []);
 
   const addAdres = async () => {
-    if (!userId) return;
+    if (!userId || !addres) return;
     try {
-      await fetch(`${backend_url}/${userId}`, {
+      await fetch(`${backend_url}/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           accept: "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           adress: addres,
         }),
       });
+      if (onSave) onSave(addres);
       exit();
-    } catch (err) {
-      console.log("error from client side", err);
-    }
+    } catch (err) {}
   };
 
   return (
@@ -62,10 +61,14 @@ export const AddAdress = ({ exit }) => {
         <input
           className="w-[454px] h-20 border border-zinc-300 rounded-xl focus:outline-none pl-3 text-[16px] font-normal text-black"
           placeholder="Please share your complete address"
+          value={addres}
           onChange={(e) => setAddres(e.target.value)}
         />
         <div className="w-[454px] h-16 flex justify-end items-end gap-4">
-          <button className="w-[79px] h-10 bg-white text-[14px] font-medium text-black rounded-xl flex justify-center items-center cursor-pointer border border-zinc-300">
+          <button
+            className="w-[79px] h-10 bg-white text-[14px] font-medium text-black rounded-xl flex justify-center items-center cursor-pointer border border-zinc-300"
+            onClick={exit}
+          >
             Cancel
           </button>
           <button

@@ -11,7 +11,6 @@ export const AddImage = (props) => {
       setImage(URL.createObjectURL(imageDisplay));
     }
   };
-  console.log(uploadToCloudinary);
 
   return (
     <label htmlFor="image-upload" className={`${wh}`}>

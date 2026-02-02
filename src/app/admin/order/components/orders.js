@@ -1,43 +1,48 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DownIcon } from "@/app/icons/downIcon";
-import { useState } from "react";
-import { OrderedFood } from "./orderFood";
 import { UpAndDown } from "@/app/icons/upAndDown";
+import { OrderedFood } from "./orderFood";
 import { jwtDecode } from "jwt-decode";
 
 const getOption = { method: "GET" };
 const backend_url = process.env.BACKEND_URL;
 
-export const Orders = (props) => {
-  const { countDeliveryState, index, orderData, getData } = props;
+export const Orders = ({
+  countDeliveryState,
+  index,
+  orderData,
+  getData,
+  checked,
+}) => {
   const [state, setState] = useState(false);
   const [orderFoodState, setOrderedFoodState] = useState(false);
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState(null);
   const [status, setStatus] = useState(orderData.status);
-  const [foodOrderByUsedrId, setFoodOrderByUserId] = useState([]);
+  const [foodOrderByUserId, setFoodOrderByUserId] = useState([]);
+
+  useEffect(() => {
+    setStatus(orderData.status);
+  }, [orderData.status]);
 
   const orderApiLink = `${backend_url}/order/${userId}`;
 
-  const getFoodOrderByUsedrId = async () => {
+  const getFoodOrderByUserId = async () => {
     try {
       const orderData = await fetch(orderApiLink, getOption);
       const orderJsonData = await orderData.json();
       setFoodOrderByUserId(orderJsonData);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   };
-  console.log(foodOrderByUsedrId, "food orders by user id");
 
   useEffect(() => {
-    getFoodOrderByUsedrId();
     const adminToken = localStorage.getItem("token");
     if (adminToken) {
       setToken(adminToken);
       const decoded = jwtDecode(adminToken);
       setUserId(decoded.id);
+      getFoodOrderByUserId();
     }
   }, []);
 
@@ -50,20 +55,14 @@ export const Orders = (props) => {
           accept: "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          status: status,
-        }),
+        body: JSON.stringify({ status }),
       });
       setStatus(status);
       await getData();
-    } catch (err) {
-      console.log("error from client side", err);
-    }
+    } catch (err) {}
   };
 
-  const statusBtn = () => {
-    setState(!state);
-  };
+  const statusBtn = () => setState(!state);
   const changeOrderedFoodState = () => {
     setOrderedFoodState(!orderFoodState);
     setState(false);
@@ -75,6 +74,7 @@ export const Orders = (props) => {
         <input
           type="checkbox"
           className="cursor-pointer"
+          checked={checked} // synced from FoodOrder
           onChange={countDeliveryState(index)}
         />
       </div>
@@ -87,30 +87,18 @@ export const Orders = (props) => {
         </span>
       </div>
       <div className="w-40 h-14 flex justify-start items-center relative">
-        <span
-          className="text-[14px] w-[130px] font-medium text-gray-500 pl-4
-        flex items-center justify-between"
-        >
+        <span className="text-[14px] w-[130px] font-medium text-gray-500 pl-4 flex items-center justify-between">
           2 foods
           <button className="cursor-pointer" onClick={changeOrderedFoodState}>
             <DownIcon />
           </button>
         </span>
-        {orderFoodState === true ? (
-          <div
-            className="absolute min-w-[264px] min-h-12 bg-white z-10
-            rounded-xl border border-zinc-300 p-3 flex flex-col gap-3 mt-[110px]"
-          >
-            {foodOrderByUsedrId.map((order) => {
-              return (
-                <div key={order._id}>
-                  <OrderedFood orderData={order} />
-                </div>
-              );
-            })}
+        {orderFoodState && (
+          <div className="absolute min-w-[264px] min-h-12 bg-white z-10 rounded-xl border border-zinc-300 p-3 flex flex-col gap-3 mt-[110px]">
+            {foodOrderByUserId.map((order) => (
+              <OrderedFood key={order._id} orderData={order} />
+            ))}
           </div>
-        ) : (
-          ""
         )}
       </div>
       <div className="w-40 h-14 flex justify-start items-center">
@@ -130,24 +118,19 @@ export const Orders = (props) => {
       </div>
       <div className="w-40 h-14 flex items-center justify-start">
         <button
-          className={`min-w-[94px] h-8 border cursor-pointer rounded-[80px] text-[12px] 
-        font-semibold ml-4 flex items-center justify-evenly ${
-          status === "Pending" ? "border-red-500" : ""
-        } ${status === "Cancelled" ? "border-zinc-300" : ""} ${
-          status === "Delivered" ? "border-green-500" : ""
-        }`}
+          className={`min-w-[94px] h-8 border cursor-pointer rounded-[80px] text-[12px] font-semibold ml-4 flex items-center justify-evenly ${
+            status === "Pending" ? "border-red-500" : ""
+          } ${status === "Cancelled" ? "border-zinc-300" : ""} ${
+            status === "Delivered" ? "border-green-500" : ""
+          }`}
           onClick={statusBtn}
         >
           {status} <UpAndDown />
         </button>
-        {state === true ? (
-          <div
-            className="w-36 h-[116px] bg-white absolute mt-[147px] shadow-2xl
-            rounded-2xl flex flex-col items-baseline justify-evenly pl-2.5"
-          >
+        {state && (
+          <div className="w-36 h-[116px] bg-white absolute mt-[147px] shadow-2xl rounded-2xl flex flex-col items-baseline justify-evenly pl-2.5">
             <button
-              className="cursor-pointer w-[75px] h-6 bg-zinc-100
-            rounded-2xl text-[12px] font-medium text-black"
+              className="cursor-pointer w-[75px] h-6 bg-zinc-100 rounded-2xl text-[12px] font-medium text-black"
               onClick={() => {
                 changeStatus("Delivered");
                 setState(false);
@@ -156,8 +139,7 @@ export const Orders = (props) => {
               Delivered
             </button>
             <button
-              className={`cursor-pointer w-[67px] h-6 bg-zinc-100
-            rounded-2xl text-[12px] font-medium text-black`}
+              className="cursor-pointer w-[67px] h-6 bg-zinc-100 rounded-2xl text-[12px] font-medium text-black"
               onClick={() => {
                 changeStatus("Pending");
                 setState(false);
@@ -166,8 +148,7 @@ export const Orders = (props) => {
               Pending
             </button>
             <button
-              className="cursor-pointer w-[78px] h-6 bg-zinc-100
-            rounded-2xl text-[12px] font-medium text-black"
+              className="cursor-pointer w-[78px] h-6 bg-zinc-100 rounded-2xl text-[12px] font-medium text-black"
               onClick={() => {
                 changeStatus("Cancelled");
                 setState(false);
@@ -176,8 +157,6 @@ export const Orders = (props) => {
               Cancelled
             </button>
           </div>
-        ) : (
-          ""
         )}
       </div>
     </div>

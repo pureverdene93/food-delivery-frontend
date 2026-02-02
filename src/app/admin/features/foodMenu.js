@@ -7,7 +7,6 @@ import { CategorySection } from "../components/categorySection";
 import { AddCategoryCard } from "../components/addCategoryCard";
 
 const backend_url = process.env.BACKEND_URL;
-console.log(backend_url, "this is backendURL");
 
 export const FoodMenu = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -50,7 +49,6 @@ export const FoodMenu = () => {
   useEffect(() => {
     getDataTest();
   }, []);
-  console.log(categoryId, "this is category id");
 
   return (
     <div className="flex flex-col gap-6">

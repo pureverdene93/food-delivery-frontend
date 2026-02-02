@@ -2,10 +2,13 @@
 import { SetFalseDeliveryState } from "@/app/icons/setFalseDeliveryState-icon";
 import { useState } from "react";
 
+const backend_url = process.env.BACKEND_URL;
+
 export const ChangeAllDeliveryState = (props) => {
-  const { handleSetDeliveryStateFalse } = props;
+  const { handleSetDeliveryStateFalse, selectedOrderIds, onSuccess } = props;
 
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlePending = () => {
     setStatus("Pending");
@@ -17,8 +20,31 @@ export const ChangeAllDeliveryState = (props) => {
     setStatus("Cancelled");
   };
 
-  const saveStatus = () => {
-    if (status === "Delivered") {
+  const saveStatus = async () => {
+    if (!status || selectedOrderIds.length === 0) return;
+
+    setLoading(true);
+    const token = localStorage.getItem("token");
+
+    try {
+      await Promise.all(
+        selectedOrderIds.map((orderId) =>
+          fetch(`${backend_url}/order/${orderId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              accept: "application/json",
+              authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ status }),
+          })
+        )
+      );
+      onSuccess(status);
+    } catch (err) {
+      console.error("Failed to update orders:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,10 +101,14 @@ export const ChangeAllDeliveryState = (props) => {
         </button>
       </div>
       <button
-        className="w-[316px] h-9 bg-black text-white rounded-2xl flex
-        items-center justify-center font-medium text-[14px] cursor-pointer"
+        className={`w-[316px] h-9 text-white rounded-2xl flex
+        items-center justify-center font-medium text-[14px] cursor-pointer ${
+          status && !loading ? "bg-black" : "bg-zinc-400"
+        }`}
+        onClick={saveStatus}
+        disabled={!status || loading}
       >
-        Save
+        {loading ? "Saving..." : "Save"}
       </button>
     </div>
   );

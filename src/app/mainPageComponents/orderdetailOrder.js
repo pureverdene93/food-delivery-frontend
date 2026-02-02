@@ -18,7 +18,6 @@ export const OrderDetailOrder = () => {
   const [userId, setUserId] = useState(null);
 
   const orderApiLink = `${backend_url}/order/${userId}`;
-  // console.log(userId, "it is user id");
 
   const getData = async () => {
     if (!userId) return;
@@ -27,11 +26,9 @@ export const OrderDetailOrder = () => {
     setOrderByUserId(jsonOrderData);
   };
 
-  // console.log(orderByUserId, "orders by user id");
   const statusDelivered = orderByUserId.filter((status) => {
     return status.status === "Delivered";
   });
-  // console.log(statusDelivered, "status delivered");
   const statusPending = orderByUserId.filter((status) => {
     return status.status === "Pending";
   });
@@ -45,9 +42,7 @@ export const OrderDetailOrder = () => {
     const decodedToken = jwtDecode(myToken);
     setUserId(decodedToken.id);
     getData();
-    // console.log(decodedToken, "decoded token from order");
   }, [userId]);
-  // console.log(userId, "it is token");
 
   return (
     <div className="w-[471px] h-[832px] rounded-xl bg-white p-4 flex flex-col gap-5 items-center overflow-y-scroll">

@@ -65,7 +65,6 @@ export const EditFoodInfo = (props) => {
       alert("please wait");
     }
     try {
-      console.log("findCategoryId", findCategoryId);
       await fetch(`${backend_url}/${foodId}`, {
         method: "PATCH",
         headers: {
@@ -83,9 +82,7 @@ export const EditFoodInfo = (props) => {
       });
       await getFoodData();
       exit();
-    } catch (err) {
-      console.log("this is error", err);
-    }
+    } catch (err) {}
   };
   const deleteFood = async () => {
     try {
@@ -99,9 +96,7 @@ export const EditFoodInfo = (props) => {
       });
       await getFoodData();
       exit();
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   useEffect(() => {
     const adminToken = localStorage.getItem("token");

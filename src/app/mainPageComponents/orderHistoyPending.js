@@ -4,8 +4,6 @@ import { OrderedFoodIcon } from "../icons/orderedFoodIcon";
 import { TimerIcon } from "../icons/timerIcon";
 
 export const OrderHistoryPending = ({ data }) => {
-//   console.log(data, "user data pending");
-
   return (
     <div className="flex  flex-col gap-2.5">
       <div className="w-[415px] h-7 flex items-center justify-between mt-5">

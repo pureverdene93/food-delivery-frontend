@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 import { LogoIcon } from "../icons/logo-icon";
 import { ShoppingIcon } from "../icons/shopping-icon";
 import { UserIconWhite } from "../icons/user-icon";
@@ -11,8 +12,6 @@ import { UserSection } from "../mainPageComponents/userSection";
 import { OrderInfo } from "../mainPageComponents/order-info";
 
 const backend_url = process.env.BACKEND_URL;
-const userApiLink = `${backend_url}/user`;
-const getOption = { method: "GET" };
 
 export const Header = () => {
   const router = useRouter();
@@ -20,17 +19,34 @@ export const Header = () => {
   const [userState, setUserState] = useState(false);
   const [orderState, setOrderState] = useState(false);
   const [token, setToken] = useState(null);
-  const [userData, setUserData] = useState([]);
-  const getData = async () => {
-    const data = await fetch(userApiLink, getOption);
-    const jsonData = data.json();
-    setUserData(jsonData);
+  const [userAddress, setUserAddress] = useState("");
+
+  const fetchUserAddress = async (userId) => {
+    try {
+      const res = await fetch(`${backend_url}/user/${userId}`);
+      const data = await res.json();
+      if (data?.adress) {
+        setUserAddress(data.adress);
+      }
+    } catch (err) {}
   };
 
   useEffect(() => {
     const tokenFromLocalStorage = localStorage.getItem("token");
     setToken(tokenFromLocalStorage);
-    getData();
+    if (tokenFromLocalStorage) {
+      try {
+        const decoded = jwtDecode(tokenFromLocalStorage);
+        fetchUserAddress(decoded.id);
+      } catch (err) {}
+    }
+
+    const handleAddressUpdate = (e) => {
+      setUserAddress(e.detail);
+    };
+    window.addEventListener("addressUpdated", handleAddressUpdate);
+    return () =>
+      window.removeEventListener("addressUpdated", handleAddressUpdate);
   }, []);
 
   return (
@@ -48,15 +64,16 @@ export const Header = () => {
         <div className="flex flex-row gap-3">
           {token && (
             <>
-              <div className="bg-white rounded-2xl w-[251px] h-9 flex items-center gap-1 justify-center">
-                <p className="text-red-500 font-normal text-[12px] flex items-center gap-1">
+              <div className="bg-white rounded-2xl min-w-[251px] h-9 flex items-center gap-1 justify-center px-3">
+                <p className="text-red-500 font-normal text-[12px] flex items-center gap-1 whitespace-nowrap">
                   <LocationIcon /> Delivery address:
                 </p>
                 <button
-                  className="text-[12px] text-[#71717A] font-normal flex items-center cursor-pointer"
+                  className="text-[12px] text-[#71717A] font-normal flex items-center cursor-pointer max-w-[150px] truncate"
                   onClick={() => setLocationState(true)}
                 >
-                  Add Location <AddLocIcon />
+                  {userAddress || "Add Location"}{" "}
+                  {!userAddress && <AddLocIcon />}
                 </button>
               </div>
               <button
@@ -89,7 +106,18 @@ export const Header = () => {
               </button>
             </>
           )}
-          {locationState && <AddAdress exit={() => setLocationState(false)} />}
+          {locationState && (
+            <AddAdress
+              exit={() => setLocationState(false)}
+              onSave={(newAddress) => {
+                setUserAddress(newAddress);
+                window.dispatchEvent(
+                  new CustomEvent("addressUpdated", { detail: newAddress }),
+                );
+              }}
+              currentAddress={userAddress}
+            />
+          )}
           {userState && <UserSection exit={() => setUserState(false)} />}
           {orderState && <OrderInfo exit={() => setOrderState(false)} />}
         </div>

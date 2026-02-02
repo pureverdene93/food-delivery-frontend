@@ -5,7 +5,6 @@ import { Addfood } from "./addFood";
 import { FoodCard } from "./foodCard";
 
 const backend_url = process.env.BACKEND_URL;
-console.log(backend_url, "ukyergfuiyerghfyuerfgouyeriuygfeurygfueyrg");
 
 export const CategorySection = (props) => {
   const { category } = props;
@@ -23,18 +22,14 @@ export const CategorySection = (props) => {
     const foodData = await fetch(foodApiLink, option);
     const jsonData = await foodData.json();
     setFoodData(jsonData);
-    // console.log("this is food data", jsonData);
     const filteredFoodData = await fetch(getFoodById, option);
     const filteredJsonData = await filteredFoodData.json();
     setFilteredFoodData(filteredJsonData);
   };
 
-  // console.log("this is filtered food data", filteredFoodData);
-
   useEffect(() => {
     getFoodData();
   }, []);
-  console.log(filteredFoodData, "this is food data jflerhgileurhiouger");
 
   return (
     <div

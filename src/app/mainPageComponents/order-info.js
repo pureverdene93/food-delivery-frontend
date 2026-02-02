@@ -25,16 +25,6 @@ export const OrderInfo = ({ exit }) => {
   //   setOrderByUserId(jsonOrderData);
   // };
 
-  // useEffect(() => {
-  //   const myToken = localStorage.getItem("token");
-  //   setToken(myToken);
-  //   const decodedToken = jwtDecode(myToken);
-  //   setUserId(decodedToken.id);
-  //   getData();
-  //   // console.log(decodedToken, "decoded token from order");
-  // }, []);
-  // // console.log(userId, "it is token");
-
   const close = () => {
     setSideBarAnimation("animate-slideOut");
   };
