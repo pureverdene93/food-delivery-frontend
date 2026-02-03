@@ -283,65 +283,6 @@ export const OrderDetailCart = ({ animationEnd }) => {
           </>
         )}
       </div>
-
-      <div className="w-full bg-white rounded-xl p-3 sm:p-4 flex flex-col gap-3">
-        <div
-          className="flex justify-between items-center cursor-pointer"
-          onClick={() => setShowHistory(!showHistory)}
-        >
-          <p className="text-lg sm:text-xl font-semibold text-[#71717A]">
-            Order History
-          </p>
-          <span className="text-sm text-gray-500">
-            {showHistory ? "▲" : "▼"}
-          </span>
-        </div>
-        {showHistory && (
-          <div className="flex flex-col gap-3 max-h-[250px] sm:max-h-[300px] overflow-y-auto">
-            {orderHistory.length === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-4">
-                No orders yet
-              </p>
-            ) : (
-              orderHistory.map((order) => (
-                <div
-                  key={order._id}
-                  className="border border-zinc-200 rounded-lg p-3 flex flex-col gap-2"
-                >
-                  <div className="flex justify-between items-center">
-                    <p className="text-sm font-medium text-black">
-                      ${order.totalPrice}
-                    </p>
-                    <span
-                      className={`text-xs font-semibold px-2 sm:px-3 py-1 rounded-full border ${getStatusColor(
-                        order.status,
-                      )}`}
-                    >
-                      {order.status}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-xs text-gray-500">
-                      {order.foodOrderItem?.length || 0} items
-                    </p>
-                    {order.status === "Pending" && (
-                      <button
-                        className="text-xs text-red-500 font-medium cursor-pointer hover:underline"
-                        onClick={() =>
-                          updateOrderStatus(order._id, "Cancelled")
-                        }
-                      >
-                        Cancel Order
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
-      </div>
-
       {orderSucces &&
         createPortal(
           <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50 p-4">

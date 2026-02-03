@@ -61,19 +61,22 @@ export const FoodOrder = () => {
   return (
     <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-7xl">
       <button className="w-full flex justify-end">
-        <img src="/me.jpg" className="object-cover w-8 h-8 sm:w-9 sm:h-9 rounded-full" />
+        <img
+          src="/me.jpg"
+          className="object-cover w-8 h-8 sm:w-9 sm:h-9 rounded-full"
+        />
       </button>
       <div className="w-full min-h-32 bg-white border border-zinc-300 rounded-xl sm:rounded-2xl overflow-hidden">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 sm:p-4 border-b gap-3">
           <div>
-            <p className="text-base sm:text-lg lg:text-xl text-black font-bold">Orders</p>
+            <p className="text-base sm:text-lg lg:text-xl text-black font-bold">
+              Orders
+            </p>
             <p className="text-xs font-medium text-zinc-300">
               {orderData.length} items
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <input type="date" className="text-sm border rounded-lg px-2 py-1" />
             <button
               className={`flex items-center px-3 sm:px-4 h-8 sm:h-9
                 rounded-full cursor-pointer text-xs sm:text-sm gap-2
@@ -105,11 +108,8 @@ export const FoodOrder = () => {
             )}
           </div>
         </div>
-
-        {/* Table - horizontally scrollable on mobile */}
         <div className="overflow-x-auto">
           <div className="min-w-[900px]">
-            {/* Table Header */}
             <div className="flex items-center h-12 border-b bg-gray-50">
               <div className="w-12 flex justify-center items-center">
                 <input
@@ -117,7 +117,8 @@ export const FoodOrder = () => {
                   className="cursor-pointer"
                   onChange={checkAllOrders}
                   checked={
-                    orderData.length > 0 && countDeliveryState === orderData.length
+                    orderData.length > 0 &&
+                    countDeliveryState === orderData.length
                   }
                 />
               </div>
@@ -137,9 +138,6 @@ export const FoodOrder = () => {
               <div className="w-28 flex items-center justify-start">
                 <div className="text-gray-500 text-xs sm:text-sm font-medium pl-4 flex items-center gap-2">
                   Date
-                  <button className="cursor-pointer">
-                    <UpAndDown />
-                  </button>
                 </div>
               </div>
               <div className="w-24 flex items-center justify-start">
@@ -155,14 +153,9 @@ export const FoodOrder = () => {
               <div className="w-32 flex items-center justify-start">
                 <span className="text-gray-500 text-xs sm:text-sm font-medium pl-4 flex items-center gap-2">
                   Status
-                  <button className="cursor-pointer">
-                    <UpAndDown />
-                  </button>
                 </span>
               </div>
             </div>
-
-            {/* Table Body */}
             <div className="divide-y">
               {orderData.map((order, index) => (
                 <Orders

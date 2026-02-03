@@ -52,7 +52,6 @@ export const Header = () => {
   return (
     <div className="bg-zinc-900 min-h-[60px] sm:min-h-[68px] w-full flex items-center justify-center px-4 sm:px-6 lg:px-0">
       <div className="flex w-full max-w-7xl justify-between items-center">
-        {/* Logo */}
         <div className="flex items-center gap-2">
           <LogoIcon />
           <div className="hidden sm:block">
@@ -62,12 +61,9 @@ export const Header = () => {
             <p className="text-xs text-white">Swift delivery</p>
           </div>
         </div>
-
-        {/* Right Section */}
         <div className="flex flex-row gap-2 sm:gap-3 items-center">
           {token && (
             <>
-              {/* Address - hidden on mobile */}
               <div className="hidden md:flex bg-white rounded-2xl h-9 items-center gap-1 justify-center px-3">
                 <p className="text-red-500 font-normal text-xs flex items-center gap-1 whitespace-nowrap">
                   <LocationIcon /> Delivery address:
@@ -80,7 +76,6 @@ export const Header = () => {
                   {!userAddress && <AddLocIcon />}
                 </button>
               </div>
-              {/* Mobile address button */}
               <button
                 className="md:hidden w-9 h-9 bg-white cursor-pointer flex justify-center items-center rounded-full"
                 onClick={() => setLocationState(true)}
@@ -93,12 +88,15 @@ export const Header = () => {
               >
                 <ShoppingIcon />
               </button>
-              <button
-                className="w-9 h-9 bg-red-500 cursor-pointer flex justify-center items-center rounded-full"
-                onClick={() => setUserState(!userState)}
-              >
-                <UserIconWhite />
-              </button>
+              <div className="relative">
+                <button
+                  className="w-9 h-9 bg-red-500 cursor-pointer flex justify-center items-center rounded-full"
+                  onClick={() => setUserState(!userState)}
+                >
+                  <UserIconWhite />
+                </button>
+                {userState && <UserSection exit={() => setUserState(false)} />}
+              </div>
             </>
           )}
           {!token && (
@@ -129,7 +127,6 @@ export const Header = () => {
               currentAddress={userAddress}
             />
           )}
-          {userState && <UserSection exit={() => setUserState(false)} />}
           {orderState && <OrderInfo exit={() => setOrderState(false)} />}
         </div>
       </div>

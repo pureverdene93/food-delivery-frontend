@@ -24,7 +24,7 @@ export const UserSection = () => {
   };
 
   return (
-    <div className="absolute min-w-[188px] h-[104px] bg-white rounded-xl flex justify-center items-center flex-col gap-2 mt-10 ml-[200px]">
+    <div className="absolute right-0 top-full mt-2 min-w-[188px] h-[104px] bg-white rounded-xl flex justify-center items-center flex-col gap-2 z-50 shadow-lg">
       <p className="text-black text-[20px] font-semibold ml-4 mr-4">
         {decodedData.email}
       </p>

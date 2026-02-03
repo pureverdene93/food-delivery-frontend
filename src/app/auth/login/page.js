@@ -113,12 +113,12 @@ export default function Home() {
               </p>
             )}
           </div>
-          <button
+          {/* <button
             className="text-sm font-normal text-black cursor-pointer hover:underline"
             onClick={() => router.push(`/auth/reset-password`)}
           >
             Forgot password ?
-          </button>
+          </button> */}
         </div>
         <LetsGo nextStep={nextButton} title={"Let's Go"} />
         <AlreadyAccount

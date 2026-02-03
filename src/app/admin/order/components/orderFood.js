@@ -5,11 +5,11 @@ export const OrderedFood = ({ orderData }) => {
       <div className="flex items-center gap-2.5">
         <img
           className="object-cover w-8 h-[30px] rounded"
-          src={orderData.foodOrderItem.food.image}
+          src={orderData.food?.image}
         />
-        <p className="text-black font-normal text-[12px]">jdhyfgvuf</p>
+        <p className="text-black font-normal text-[12px]">{orderData.food?.foodName}</p>
       </div>
-      <p className="text-black font-normal text-[12px]">x1</p>
+      <p className="text-black font-normal text-[12px]">x{orderData.quantity}</p>
     </div>
   );
 };

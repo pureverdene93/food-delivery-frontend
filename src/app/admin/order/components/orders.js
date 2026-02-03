@@ -20,7 +20,7 @@ export const Orders = ({
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState(null);
   const [status, setStatus] = useState(orderData.status);
-  const [foodOrderByUserId, setFoodOrderByUserId] = useState([]);
+  // const [foodOrderByUserId, setFoodOrderByUserId] = useState([]);
 
   useEffect(() => {
     setStatus(orderData.status);
@@ -28,13 +28,13 @@ export const Orders = ({
 
   const orderApiLink = `${backend_url}/order/${userId}`;
 
-  const getFoodOrderByUserId = async () => {
-    try {
-      const orderData = await fetch(orderApiLink, getOption);
-      const orderJsonData = await orderData.json();
-      setFoodOrderByUserId(orderJsonData);
-    } catch (err) {}
-  };
+  // const getFoodOrderByUserId = async () => {
+  //   try {
+  //     const orderData = await fetch(orderApiLink, getOption);
+  //     const orderJsonData = await orderData.json();
+  //     setFoodOrderByUserId(orderJsonData);
+  //   } catch (err) {}
+  // };
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");
@@ -42,7 +42,7 @@ export const Orders = ({
       setToken(adminToken);
       const decoded = jwtDecode(adminToken);
       setUserId(decoded.id);
-      getFoodOrderByUserId();
+      // getFoodOrderByUserId();
     }
   }, []);
 
@@ -68,6 +68,10 @@ export const Orders = ({
     setState(false);
   };
 
+  const date = orderData.createdAt.slice(0, 10);
+
+  console.log("ORDER DATA:", orderData);
+
   return (
     <div className="h-12 sm:h-14 flex flex-row hover:bg-gray-50">
       <div className="w-12 flex justify-center items-center">
@@ -88,14 +92,14 @@ export const Orders = ({
       </div>
       <div className="w-24 flex justify-start items-center relative">
         <span className="text-xs sm:text-sm font-medium text-gray-500 pl-4 flex items-center gap-2">
-          2 foods
+          {orderData?.foodOrderItem?.length || 0} foods
           <button className="cursor-pointer" onClick={changeOrderedFoodState}>
             <DownIcon />
           </button>
         </span>
         {orderFoodState && (
           <div className="absolute left-0 top-full min-w-[200px] sm:min-w-[264px] bg-white z-10 rounded-xl border border-zinc-300 p-3 flex flex-col gap-3 shadow-lg">
-            {foodOrderByUserId.map((order) => (
+            {orderData?.foodOrderItem?.map((order) => (
               <OrderedFood key={order._id} orderData={order} />
             ))}
           </div>
@@ -103,7 +107,7 @@ export const Orders = ({
       </div>
       <div className="w-28 flex justify-start items-center">
         <span className="text-xs sm:text-sm font-medium text-gray-500 pl-4">
-          2024/12/20
+          {date}
         </span>
       </div>
       <div className="w-24 flex justify-start items-center">
